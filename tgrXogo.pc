@@ -1,0 +1,385 @@
+/*
+ * 
+ * Miguel Rodrí­guez Penabad (miguel.penabad@udc.es)
+ * Universidade da Coruña
+ *
+ * BDA - Curso 2015-16
+ *
+ * Esqueleto de programa en Pro*C
+ */
+
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+EXEC SQL INCLUDE SQLCA;
+
+/*
+ * Utilidades para menús e ler valores por teclado. 
+ * En "teclado.c" están repetidas con exemplos de uso 
+ */
+#define MAXLEN 20
+void get_string(char *s, int maxlen){
+	fgets(s,maxlen,stdin);
+	int last = strlen(s) -1;
+	if ( (s[last]=='\r') || (s[last]=='\n') )
+		s[last] = '\0';
+}
+
+void get_password(char *s, int maxlen){
+	system("stty -echo");
+	get_string(s,maxlen);
+	system("stty echo");
+}
+
+int get_int(){
+	char s[MAXLEN];
+	get_string(s,MAXLEN);
+	return atoi(s);
+}
+
+float get_float(){
+	char s[MAXLEN];
+	get_string(s,MAXLEN);
+	return atof(s);
+}
+
+int menu()
+{
+  int opcion = -1;
+
+  int MAXOPTS = 8; /* Número de opcións do menú */
+
+  printf("Menú da aplicación de Xogos\n");
+  printf("==================\n\n");
+  printf("1. Listar Xogos\n");
+  printf("2. Buscar Xogo\n");
+  printf("3. Buscar Autor\n");
+  printf("4. Engadir Crítica\n");
+  printf("5. Engadir Autor\n");
+  printf("6. Engadir Xogo\n");
+  printf("7. Eliminar Xogo\n");
+  printf("8. Eliminar Autor\n");
+  //printf("9. Modificar Crítica\n");
+  printf("0. Saír\n");
+
+  while ( (opcion < 0) || (opcion > MAXOPTS)){
+      printf("OP> ");
+      opcion=get_int();
+  }
+  return opcion;
+}
+
+
+int errorManager(int salir){
+	EXEC SQL WHENEVER SQLERROR CONTINUE;
+
+	printf("\nError: %s\n",
+      	sqlca.sqlerrm.sqlerrmc);
+    
+    	if(salir == 1){
+       		exit(-1);
+	}
+	return -1;
+}
+
+int errorManager_DML(int salir)
+{
+	EXEC SQL WHENEVER SQLERROR CONTINUE;
+
+	printf("\nError: %s\n",
+      	sqlca.sqlerrm.sqlerrmc);
+    
+	EXEC SQL ROLLBACK;
+	
+    	if(salir == 1){
+       		exit(-1);
+	}
+	return -1;
+}
+
+/* Funcionalidadess de base de datos */
+
+void conecta_bd(){
+	int error;
+	EXEC SQL WHENEVER SQLERROR DO error = errorManager(1);
+   
+   EXEC SQL BEGIN DECLARE SECTION;
+      char usuario[30];
+      
+      char clave[30];
+   EXEC SQL END DECLARE SECTION;
+
+   printf("Usuario: ");
+   get_string(usuario,30);
+   printf("Clave: ");
+   get_password(clave,30);
+  
+   printf("\nConectando con Oracle...\n");
+   /* Introducir código para conectar coa BD*/
+   EXEC SQL CONNECT :usuario IDENTIFIED BY :clave;
+   if(!error)
+      printf("Conectado!\n");
+}
+
+void desconecta_bd(){
+	EXEC SQL WHENEVER SQLERROR DO errorManager(1);
+   /* Introducir código para desconectar da BD*/
+   EXEC SQL COMMIT RELEASE;    
+}
+
+
+
+void crear_taboa(){
+	int error;
+	EXEC SQL WHENEVER SQLERROR DO error = errorManager(0);
+	
+   printf("Función crear_taboa().\n");
+   /* Introducir código para crear unha táboa */
+	EXEC SQL CREATE TABLE artigo (
+	codart NUMBER(4),
+	nomart VARCHAR2(20),
+	prezoart NUMBER(5,2),
+	CONSTRAINT PK_ARTIGO_D PRIMARY KEY(codart)
+	);
+	if (!error)
+		printf("Taboa creada!\n");
+}
+
+void eliminar_taboa(){
+	int error;
+	EXEC SQL WHENEVER SQLERROR DO error = errorManager(0);
+	
+   printf("Función eliminar_taboa().\n");
+   /* Introducir código para eliminar (drop) unha táboa */
+   EXEC SQL DROP TABLE artigo;
+   if (!error)
+      printf("Taboa borrada!\n");
+   
+}
+
+void insertar_elemento(){
+	int erro = 0;		
+	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+	
+   printf("Función insertar_elemento().\n");
+   EXEC SQL BEGIN DECLARE SECTION;
+      int codart;
+      float prezoart;
+      char nomart[21];
+      short prezoart_ind;
+   EXEC SQL END DECLARE SECTION;
+   
+   printf("Código: ");
+   codart=get_int();
+   printf("Nome: ");
+   get_string(nomart,20);
+   printf("Prezo:[-1 si desconocido] ");
+   prezoart=get_float();
+   
+   if (prezoart == -1)
+      prezoart_ind = -1;
+   else
+      prezoart_ind = 0;
+   
+   EXEC SQL INSERT INTO artigo(codart, nomart, prezoart)
+   VALUES (:codart, :nomart, :prezoart:prezoart_ind);
+   
+	if(erro==0)
+		EXEC SQL COMMIT;
+
+}
+
+void borrar_elemento()
+{
+	int erro = 0;		
+	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+	
+	printf("Función borrar_elemento().\n");
+   	EXEC SQL BEGIN DECLARE SECTION;
+      	int codart;
+	//int numfilas;
+	EXEC SQL END DECLARE SECTION;
+
+	printf("Código a borrar: ");
+   	codart=get_int();
+
+	//EXEC SQL SELECT count(*) INTO :numfilas FROM artigo WHERE codart = :codart;
+
+	EXEC SQL DELETE FROM artigo 
+		WHERE codart = :codart ;
+
+	//if (numfilas>0)
+	if(sqlca.sqlcode == 0)	
+		printf("Se ha borrado con exito!\n");
+	else
+		printf("No existe ese código en la tabla!\n");
+	if(erro==0)
+		EXEC SQL COMMIT;
+}
+
+void borrar_elementoNome()
+{
+	int erro = 0;		
+	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+	
+	printf("Función borrar_elementoNome().\n");
+   	EXEC SQL BEGIN DECLARE SECTION;
+      	char nomart[21],patron[23];
+	//int numfilas;
+	EXEC SQL END DECLARE SECTION;
+
+	
+   	printf("Nome a borrar: ");
+   	get_string(nomart,20);
+	
+	strcpy(patron, "%");
+	strcpy(patron, nomart);
+	strcpy(patron, "%");
+	//EXEC SQL SELECT count(*) INTO :numfilas FROM artigo WHERE codart = :codart;
+
+	EXEC SQL DELETE FROM artigo 
+		WHERE nomart LIKE :patron ;
+
+	//if (numfilas>0)
+	if(sqlca.sqlerrd[2] > 0)	
+		printf("Se ha borrado %d artigos con exito!\n", sqlca.sqlerrd[2]);
+	else
+		printf("No existe ese nombre en la tabla!\n");
+	if(erro==0)
+		EXEC SQL COMMIT;
+}
+
+void buscarElementoCodigo()
+{
+	int erro = 0;		
+	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+	
+	printf("Función buscarElementoCodigo().\n");
+   	EXEC SQL BEGIN DECLARE SECTION;
+      	int codart;
+	char nomart[25];
+	float prezoart;
+	short prezoart_ind;
+	EXEC SQL END DECLARE SECTION;
+
+	EXEC SQL SET TRANSACTION READ ONLY;	
+
+	printf("Código a buscar: ");
+   	codart=get_int();
+
+	EXEC SQL SELECT nomart,prezoart 
+		INTO :nomart,:prezoart:prezoart_ind
+		FROM artigo 
+		WHERE codart=:codart;
+
+	
+
+	if(sqlca.sqlcode == 1403)	
+		printf("No se encontró el código indicado.\n");
+	else
+		if(prezoart_ind == 0)
+			printf("--Artigo--\nCodigo	-- Nome	--			Prezo --\n %d	-- %s 	%f--\n",codart,nomart,prezoart);
+		else
+			printf("--Artigo--\nCodigo	-- Nome	--			Prezo --\n %d	-- %s 	Sen prezo establezido--\n",codart,nomart);
+	if(!erro) EXEC SQL COMMIT;
+
+}
+void listarElementos()
+{
+	int erro = 0;		
+	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+	
+	printf("Función listarElementos().\n");
+   	EXEC SQL BEGIN DECLARE SECTION;
+      	int codart;
+	char nomart[25];
+	float prezoart;
+	short prezoart_ind;
+	EXEC SQL END DECLARE SECTION;
+
+	EXEC SQL SET TRANSACTION READ ONLY;	
+
+	EXEC SQL DECLARE cursor_elementos CURSOR FOR
+		SELECT codart,nomart,prezoart 
+		FROM artigo;
+	
+	EXEC SQL OPEN cursor_elementos;	
+	EXEC SQL WHENEVER NOT FOUND DO BREAK;
+
+	while(1) {
+		EXEC SQL FETCH cursor_elementos
+		INTO :codart,:nomart,:prezoart:prezoart_ind;
+		if(sqlca.sqlcode == 1403)	
+			printf("Non hai artigos.\n");
+		else
+	
+			if(prezoart_ind == 0)
+				printf("--Artigo--\nCodigo	-- Nome	--			Prezo --\n %d	-- %s 	%f--\n",codart,nomart,prezoart);
+			else
+				printf("--Artigo--\nCodigo	-- Nome	--			Prezo --\n %d	-- %s 	Sen prezo establezido--\n",codart,nomart);
+	}
+	EXEC SQL WHENEVER NOT FOUND CONTINUE;
+	printf("Artigos atopados: %d.\n", sqlca.sqlerrd[2]);
+	EXEC SQL CLOSE cursor_elementos;
+
+	if(!erro) EXEC SQL COMMIT;
+
+}
+
+void incrementoPrezo()
+{
+	int erro = 0;		
+	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+	
+	printf("Función incrementoPrezo().\n");
+   	EXEC SQL BEGIN DECLARE SECTION;
+      	int codart;
+	float porcentaje;
+	EXEC SQL END DECLARE SECTION;
+	
+	EXEC SQL SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+	printf("Código: ");
+   	codart=get_int();
+	printf("Porcentaje: ");
+   	porcentaje=get_float();
+
+	EXEC SQL UPDATE artigo
+		SET prezoart = prezoart * (1+ :porcentaje/100)
+		WHERE codart = :codart;
+
+	printf("PAUSA"); codart=get_int();
+
+	if(!erro) EXEC SQL COMMIT;
+	
+}
+/* Función principal */
+int main()
+{
+  conecta_bd();
+
+  int op;
+
+  while ( (op=menu()) != 0){
+       switch(op){
+            case 1: crear_taboa(); break;
+            case 2: eliminar_taboa(); break;
+            case 3: insertar_elemento(); break;
+	    case 4: borrar_elemento(); break;
+	    case 5: borrar_elementoNome(); break;
+	    case 6: buscarElementoCodigo(); break;
+	    case 7: listarElementos(); break;
+	    case 8: incrementoPrezo(); break;
+       }
+
+  }
+ 
+
+
+ desconecta_bd(); 
+
+ return 0;
+}
+
+
+
