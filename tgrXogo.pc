@@ -157,97 +157,97 @@ void eliminar_taboa(){
    
 }
 
-void insertar_elemento(){
-	int erro = 0;		
-	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+//void insertar_elemento(){
+	//int erro = 0;		
+	//EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
 	
-   printf("Función insertar_elemento().\n");
-   EXEC SQL BEGIN DECLARE SECTION;
-      int codart;
-      float prezoart;
-      char nomart[21];
-      short prezoart_ind;
-   EXEC SQL END DECLARE SECTION;
+   //printf("Función insertar_elemento().\n");
+   //EXEC SQL BEGIN DECLARE SECTION;
+      //int codart;
+      //float prezoart;
+      //char nomart[21];
+      //short prezoart_ind;
+   //EXEC SQL END DECLARE SECTION;
    
-   printf("Código: ");
-   codart=get_int();
-   printf("Nome: ");
-   get_string(nomart,20);
-   printf("Prezo:[-1 si desconocido] ");
-   prezoart=get_float();
+   //printf("Código: ");
+   //codart=get_int();
+   //printf("Nome: ");
+   //get_string(nomart,20);
+   //printf("Prezo:[-1 si desconocido] ");
+   //prezoart=get_float();
    
-   if (prezoart == -1)
-      prezoart_ind = -1;
-   else
-      prezoart_ind = 0;
+   //if (prezoart == -1)
+      //prezoart_ind = -1;
+   //else
+      //prezoart_ind = 0;
    
-   EXEC SQL INSERT INTO artigo(codart, nomart, prezoart)
-   VALUES (:codart, :nomart, :prezoart:prezoart_ind);
+   //EXEC SQL INSERT INTO artigo(codart, nomart, prezoart)
+   //VALUES (:codart, :nomart, :prezoart:prezoart_ind);
    
-	if(erro==0)
-		EXEC SQL COMMIT;
+	//if(erro==0)
+		//EXEC SQL COMMIT;
 
-}
+//}
 
-void borrar_elemento()
-{
-	int erro = 0;		
-	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+//void borrar_elemento()
+//{
+	//int erro = 0;		
+	//EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
 	
-	printf("Función borrar_elemento().\n");
-   	EXEC SQL BEGIN DECLARE SECTION;
-      	int codart;
-	//int numfilas;
-	EXEC SQL END DECLARE SECTION;
+	//printf("Función borrar_elemento().\n");
+   	//EXEC SQL BEGIN DECLARE SECTION;
+      	//int codart;
+	////int numfilas;
+	//EXEC SQL END DECLARE SECTION;
 
-	printf("Código a borrar: ");
-   	codart=get_int();
+	//printf("Código a borrar: ");
+   	//codart=get_int();
 
-	//EXEC SQL SELECT count(*) INTO :numfilas FROM artigo WHERE codart = :codart;
+	////EXEC SQL SELECT count(*) INTO :numfilas FROM artigo WHERE codart = :codart;
 
-	EXEC SQL DELETE FROM artigo 
-		WHERE codart = :codart ;
+	//EXEC SQL DELETE FROM artigo 
+		//WHERE codart = :codart ;
 
-	//if (numfilas>0)
-	if(sqlca.sqlcode == 0)	
-		printf("Se ha borrado con exito!\n");
-	else
-		printf("No existe ese código en la tabla!\n");
-	if(erro==0)
-		EXEC SQL COMMIT;
-}
+	////if (numfilas>0)
+	//if(sqlca.sqlcode == 0)	
+		//printf("Se ha borrado con exito!\n");
+	//else
+		//printf("No existe ese código en la tabla!\n");
+	//if(erro==0)
+		//EXEC SQL COMMIT;
+//}
 
-void borrar_elementoNome()
-{
-	int erro = 0;		
-	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+//void borrar_elementoNome()
+//{
+	//int erro = 0;		
+	//EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
 	
-	printf("Función borrar_elementoNome().\n");
-   	EXEC SQL BEGIN DECLARE SECTION;
-      	char nomart[21],patron[23];
-	//int numfilas;
-	EXEC SQL END DECLARE SECTION;
+	//printf("Función borrar_elementoNome().\n");
+   	//EXEC SQL BEGIN DECLARE SECTION;
+      	//char nomart[21],patron[23];
+	////int numfilas;
+	//EXEC SQL END DECLARE SECTION;
 
 	
-   	printf("Nome a borrar: ");
-   	get_string(nomart,20);
+   	//printf("Nome a borrar: ");
+   	//get_string(nomart,20);
 	
-	strcpy(patron, "%");
-	strcpy(patron, nomart);
-	strcpy(patron, "%");
-	//EXEC SQL SELECT count(*) INTO :numfilas FROM artigo WHERE codart = :codart;
+	//strcpy(patron, "%");
+	//strcpy(patron, nomart);
+	//strcpy(patron, "%");
+	////EXEC SQL SELECT count(*) INTO :numfilas FROM artigo WHERE codart = :codart;
 
-	EXEC SQL DELETE FROM artigo 
-		WHERE nomart LIKE :patron ;
+	//EXEC SQL DELETE FROM artigo 
+		//WHERE nomart LIKE :patron ;
 
-	//if (numfilas>0)
-	if(sqlca.sqlerrd[2] > 0)	
-		printf("Se ha borrado %d artigos con exito!\n", sqlca.sqlerrd[2]);
-	else
-		printf("No existe ese nombre en la tabla!\n");
-	if(erro==0)
-		EXEC SQL COMMIT;
-}
+	////if (numfilas>0)
+	//if(sqlca.sqlerrd[2] > 0)	
+		//printf("Se ha borrado %d artigos con exito!\n", sqlca.sqlerrd[2]);
+	//else
+		//printf("No existe ese nombre en la tabla!\n");
+	//if(erro==0)
+		//EXEC SQL COMMIT;
+//}
 
 void buscarCritica() {
 	int erro = 0;		
@@ -521,33 +521,33 @@ void listarXogos()
 
 }
 
-void incrementoPrezo()
-{
-	int erro = 0;		
-	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+//void incrementoPrezo()
+//{
+	//int erro = 0;		
+	//EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
 	
-	printf("Función incrementoPrezo().\n");
-   	EXEC SQL BEGIN DECLARE SECTION;
-      	int codart;
-	float porcentaje;
-	EXEC SQL END DECLARE SECTION;
+	//printf("Función incrementoPrezo().\n");
+   	//EXEC SQL BEGIN DECLARE SECTION;
+      	//int codart;
+	//float porcentaje;
+	//EXEC SQL END DECLARE SECTION;
 	
-	EXEC SQL SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+	//EXEC SQL SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 
-	printf("Código: ");
-   	codart=get_int();
-	printf("Porcentaje: ");
-   	porcentaje=get_float();
+	//printf("Código: ");
+   	//codart=get_int();
+	//printf("Porcentaje: ");
+   	//porcentaje=get_float();
 
-	EXEC SQL UPDATE artigo
-		SET prezoart = prezoart * (1+ :porcentaje/100)
-		WHERE codart = :codart;
+	//EXEC SQL UPDATE artigo
+		//SET prezoart = prezoart * (1+ :porcentaje/100)
+		//WHERE codart = :codart;
 
-	printf("PAUSA"); codart=get_int();
+	//printf("PAUSA"); codart=get_int();
 
-	if(!erro) EXEC SQL COMMIT;
+	//if(!erro) EXEC SQL COMMIT;
 	
-}
+//}
 /* Función principal */
 int main()
 {
