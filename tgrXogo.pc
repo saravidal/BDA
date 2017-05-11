@@ -53,7 +53,7 @@ int menu()
   printf("==================\n\n"); // - a medio hacer -- hecho
   printf("1. Listar Xogos\n"); //Raik -
   printf("2. Buscar Xogo\n"); //Raik -
-  printf("3. Buscar Autor\n"); //Raik
+  printf("3. Buscar Autor\n"); //Raik -
   printf("4. Engadir Crítica\n"); //Sara
   printf("5. Engadir Autor\n"); //Sara
   printf("6. Engadir Xogo\n"); //Sara
@@ -249,43 +249,102 @@ void borrar_elementoNome()
 		EXEC SQL COMMIT;
 }
 
-void buscarCriticasXogo(char xogo)
+void buscarCritica() {
+	int erro = 0;		
+	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+	
+	printf("Función buscarCriticasXogo().\n");
+   	EXEC SQL BEGIN DECLARE SECTION;
+        char codCritic[26];
+		char tituloCritic[51];
+        char autor[51]
+        int puntuacion;
+        time_t data;
+        short data_ind;
+        char descripcion[501];
+        char xogo[51];
+	EXEC SQL END DECLARE SECTION;
+
+    printf("Introduzca o código do xogo: ");
+   	get_string(codXogo,25);
+
+	//Control de salida
+
+	EXEC SQL SET TRANSACTION READ ONLY;	
+	
+
+
+		EXEC SQL SELECT codCritic, tituloCritic, (SELECT tituloXogo FROM xogo WHERE codXogo=xogo), (SELECT nome FROM autor WHERE idAutor=autor), puntuacion,descripcion,data
+			INTO :codCritic,:tituloCritic,:xogo,:autor,:puntuacion,:descripcion,:data:data:_ind;
+                FROM critica 
+		WHERE autor=:codXogo;
+
+	
+	EXEC SQL OPEN cursor_critics;	
+	EXEC SQL WHENEVER NOT FOUND DO BREAK;
+	
+	if(sqlca.sqlcode == 1403){
+		printf("Non hai criticas con ese código.");
+	}else{
+		printf("--Criticas--\n--Codigo--\t--Titulo--\t--Autor--\t--Puntuacion--\n");
+		printf(" %s\t%s\t%s\t%s\t%d\n",codCritic,tituloCritic,xogo,autor,puntuacion);
+		printf("-----------------------------------------------------------------\n");
+		printf("%s\n",descripcion);
+		if(data_ind==0)printf("A fecha: %f",data);
+	}
+	if(!erro) EXEC SQL COMMIT;
+}
+
+void buscarCriticas(int opcion, char id)
 {
         int erro = 0;		
 	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
 	
 	printf("Función buscarCriticasXogo().\n");
    	EXEC SQL BEGIN DECLARE SECTION;
-      	char codXogo[26];
+      	char identificador[26];
         char codCritic[26];
-	char tituloCritic[51];
-        char autor[25]
+		char tituloCritic[51];
+        char autor[51]
         int puntuacion;
 	EXEC SQL END DECLARE SECTION;
 
-        codXogo=xogo;
+        identificador=id;
 
 	EXEC SQL SET TRANSACTION READ ONLY;	
-
+	
+	if(opcion==0){
 	EXEC SQL DECLARE cursor_critics CURSOR FOR
-                SELECT codCritic, tituloCritic, autor, puntuacion 
+                SELECT codCritic, tituloCritic, (SELECT nome FROM autor WHERE idAutor=autor), puntuacion 
                 FROM critica 
-		WHERE xogo=:codXogo;
+		WHERE xogo=:identificador;
 
+	} else {
+		EXEC SQL DECLARE cursor_critics CURSOR FOR
+                SELECT codCritic, tituloCritic, (SELECT nome FROM autor WHERE idAutor=autor), puntuacion 
+                FROM critica 
+		WHERE autor=:identificador;
+
+	}
 	EXEC SQL OPEN cursor_critics;	
 	EXEC SQL WHENEVER NOT FOUND DO BREAK;
-
 	while(1) {
 		EXEC SQL FETCH cursor_critics
 		INTO :codCritic,:tituloCritic,:autor,:puntuacion;
-		if(sqlca.sqlcode == 1403)	
-			printf("Non hai criticas para este xogo.\n");
-		else
-                        printf("--Criticas--\n--Codigo--\t--Titulo--\t--Autor--\t--Puntuacion--\n");
-			if(dataDeSaida_ind == 0)
-				printf(" %s\t%s\t%s\t%d\n",codCritic,tituloCritic,autor,puntuacion);
+		if(sqlca.sqlcode == 1403){
+			printf("Non hai criticas para este");
+			if(opcion==0)
+				printf("xogo.\n");
+			else
+				printf("autor.\n");
+		}else{
+			printf("--Criticas--\n--Codigo--\t--Titulo--\t--Autor--\t--Puntuacion--\n");
+			printf(" %s\t%s\t%s\t%d\n",codCritic,tituloCritic,autor,puntuacion);
+		}
 	}
-        if(!erro) EXEC SQL COMMIT;        
+        if(!erro) EXEC SQL COMMIT;
+        
+        buscarCritica();       
 }
 
 void buscarXogoCodigo()
@@ -309,6 +368,8 @@ void buscarXogoCodigo()
 	printf("Introduzca o código do xogo: ");
    	get_string(codXogo,25);
 
+	//Control de salida
+
 	EXEC SQL SELECT codXogo,tituloXogo,dataDeSaida,votosPositivos,votosNegativos,(SELECT AVG(puntuacion) FROM criticas WHERE xogo=codXogo) 
 		INTO :codXogo,:tituloXogo,:dataDeSaida:dataDeSaida_ind,:votosPositivos,:votosNegativos,:notaMedia;
                 FROM xogo 
@@ -326,9 +387,93 @@ void buscarXogoCodigo()
                         printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
         if(!erro) EXEC SQL COMMIT;
         
+        buscarCriticas(0,codXogo);
+
+}
+
+void buscarXogoTitulo()
+{
+	int erro = 0;		
+	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+	
+	printf("Función buscarXogoCodigo().\n");
+   	EXEC SQL BEGIN DECLARE SECTION;
+      	char codXogo[26];
+		char tituloXogo[51];
+		time_t dataDeSaida;
+		short dataDeSaida_ind;
+        int votosPositivos;
+        int votosNegativos;
+        int notaMedia;
+	EXEC SQL END DECLARE SECTION;
+
+	EXEC SQL SET TRANSACTION READ ONLY;	
+
+	printf("Introduzca o titulo do xogo: ");
+   	get_string(codXogo,25);
+
+	EXEC SQL SELECT codXogo,tituloXogo,dataDeSaida,votosPositivos,votosNegativos,(SELECT AVG(puntuacion) FROM criticas WHERE xogo=codXogo) 
+		INTO :codXogo,:tituloXogo,:dataDeSaida:dataDeSaida_ind,:votosPositivos,:votosNegativos,:notaMedia;
+                FROM xogo 
+		WHERE tituloXogo=:tituloXogo;
+
+	
+
+	if(sqlca.sqlcode == 1403)	
+		printf("No se encontró el titulo indicado.\n");
+	else
+                printf("--Xogos--\n--Codigo--\t--Titulo--\t--Data de saida--\t--Votos Positivos--\t--Votos Negativos--\t--Nota Media--\n");
+                if(dataDeSaida_ind == 0)
+                        printf(" %s\t%s\t%f\t%d\t%d\t%d\n",codXogo,tituloXogo,dataDeSaida,votosPositivos,votosNegativos,notaMedia);
+                else
+                        printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
+        if(!erro) EXEC SQL COMMIT;
+        
         buscarCriticasXogo(codXogo);
 
 }
+
+void buscarAutor()
+{
+	int erro = 0;		
+	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
+	
+	printf("Función buscarXogoCodigo().\n");
+   	EXEC SQL BEGIN DECLARE SECTION;
+      	char idAutor[26];
+		char nome[51];
+		char enlace[257];
+		short enlace_ind;
+        char tipo[31];
+	EXEC SQL END DECLARE SECTION;
+
+	EXEC SQL SET TRANSACTION READ ONLY;	
+
+	printf("Introduzca o titulo do xogo: ");
+   	get_string(codXogo,25);
+
+	EXEC SQL SELECT codXogo,tituloXogo,dataDeSaida,votosPositivos,votosNegativos,(SELECT AVG(puntuacion) FROM criticas WHERE xogo=codXogo) 
+		INTO :codXogo,:tituloXogo,:dataDeSaida:dataDeSaida_ind,:votosPositivos,:votosNegativos,:notaMedia;
+                FROM xogo 
+		WHERE tituloXogo=:tituloXogo;
+
+	
+
+	if(sqlca.sqlcode == 1403)	
+		printf("No se encontró el titulo indicado.\n");
+	else
+                printf("--Xogos--\n--Codigo--\t--Titulo--\t--Data de saida--\t--Votos Positivos--\t--Votos Negativos--\t--Nota Media--\n");
+                if(dataDeSaida_ind == 0)
+                        printf(" %s\t%s\t%f\t%d\t%d\t%d\n",codXogo,tituloXogo,dataDeSaida,votosPositivos,votosNegativos,notaMedia);
+                else
+                        printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
+        if(!erro) EXEC SQL COMMIT;
+        
+        buscarCriticas(1,idAutor);
+
+}
+
+
 void listarXogos()
 {
 	int erro = 0;		
@@ -371,6 +516,8 @@ void listarXogos()
 	EXEC SQL CLOSE cursor_elementos;
 
 	if(!erro) EXEC SQL COMMIT;
+	
+	buscarXogoCodigo();
 
 }
 
@@ -411,8 +558,8 @@ int main()
   while ( (op=menu()) != 0){
        switch(op){
             case 1: listarXogos(); break;
-            case 2: eliminar_taboa(); break;
-            case 3: insertar_elemento(); break;
+            case 2: buscarXogoTitulo(); break;
+            case 3: buscarAutor(); break;
 	    case 4: borrar_elemento(); break;
 	    case 5: borrar_elementoNome(); break;
 	    case 6: buscarElementoCodigo(); break;
