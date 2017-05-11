@@ -265,10 +265,13 @@ void buscarCritica() {
         char xogo[51];
 	EXEC SQL END DECLARE SECTION;
 
-    printf("Introduzca o código do xogo: ");
-   	get_string(codXogo,25);
+    printf("Introduzca o código da crítica: ");
+   	get_string(codCritic,25);
 
 	//Control de salida
+
+	if(strcmp(codCritic,'0') != 0)
+		return;
 
 	EXEC SQL SET TRANSACTION READ ONLY;	
 	
@@ -295,7 +298,7 @@ void buscarCritica() {
 	if(!erro) EXEC SQL COMMIT;
 }
 
-void buscarCriticas(int opcion, char id)
+void listarCriticas(int opcion, char id)
 {
         int erro = 0;		
 	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
@@ -365,10 +368,12 @@ void buscarXogoCodigo()
 
 	EXEC SQL SET TRANSACTION READ ONLY;	
 
-	printf("Introduzca o código do xogo: ");
+	printf("Introduzca o código do xogo[0 para sair]: ");
    	get_string(codXogo,25);
 
 	//Control de salida
+	if (strcmp(codXogo,'0') != 0)
+		return;
 
 	EXEC SQL SELECT codXogo,tituloXogo,dataDeSaida,votosPositivos,votosNegativos,(SELECT AVG(puntuacion) FROM criticas WHERE xogo=codXogo) 
 		INTO :codXogo,:tituloXogo,:dataDeSaida:dataDeSaida_ind,:votosPositivos,:votosNegativos,:notaMedia;
@@ -387,7 +392,7 @@ void buscarXogoCodigo()
                         printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
         if(!erro) EXEC SQL COMMIT;
         
-        buscarCriticas(0,codXogo);
+        listarCriticas(0,codXogo);
 
 }
 
@@ -429,7 +434,7 @@ void buscarXogoTitulo()
                         printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
         if(!erro) EXEC SQL COMMIT;
         
-        buscarCriticasXogo(codXogo);
+        listarCriticas(0,codXogo);
 
 }
 
@@ -469,7 +474,7 @@ void buscarAutor()
                         printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
         if(!erro) EXEC SQL COMMIT;
         
-        buscarCriticas(1,idAutor);
+        listarCriticas(1,idAutor);
 
 }
 
