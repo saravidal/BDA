@@ -373,7 +373,7 @@ void eliminar_xogo()
 
 
 void buscarCritica() {
-	int erro = 0;		
+	/*int erro = 0;		
 	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
 	
 	printf("Función buscarCriticasXogo().\n");
@@ -418,12 +418,12 @@ void buscarCritica() {
 		printf("%s\n",descripcion);
 		if(data_ind==0)printf("A fecha: %f",data);
 	}
-	if(!erro) EXEC SQL COMMIT;
+	if(!erro) EXEC SQL COMMIT;*/
 }
 
 void listarCriticas(int opcion, char id)
 {
-        int erro = 0;		
+        /*int erro = 0;		
 	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
 	
 	printf("Función buscarCriticasXogo().\n");
@@ -470,12 +470,12 @@ void listarCriticas(int opcion, char id)
 	}
         if(!erro) EXEC SQL COMMIT;
         
-        buscarCritica();
+        buscarCritica();     */  
 }
 
 void buscarXogoCodigo()
 {
-	int erro = 0;		
+	/*int erro = 0;		
 	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
 	
 	printf("Función buscarXogoCodigo().\n");
@@ -515,13 +515,13 @@ void buscarXogoCodigo()
                         printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
         if(!erro) EXEC SQL COMMIT;
         
-        listarCriticas(0,codXogo);
+        listarCriticas(0,codXogo);*/
 
 }
 
 void buscarXogoTitulo()
 {
-	int erro = 0;		
+	/*int erro = 0;		
 	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
 	
 	printf("Función buscarXogoCodigo().\n");
@@ -557,13 +557,13 @@ void buscarXogoTitulo()
                         printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
         if(!erro) EXEC SQL COMMIT;
         
-        listarCriticas(0,codXogo);
+        listarCriticas(0,codXogo);*/
 
 }
 
 void buscarAutor()
 {
-	int erro = 0;		
+	/*int erro = 0;		
 	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
 	
 	printf("Función buscarXogoCodigo().\n");
@@ -598,12 +598,13 @@ void buscarAutor()
         if(!erro) EXEC SQL COMMIT;
         
         listarCriticas(1,idAutor);
+*/
 }
 
 
 void listarXogos()
 {
-	int erro = 0;		
+/*	int erro = 0;		
 	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(0);
 	
 	printf("Función listarXogos().\n");
@@ -645,6 +646,7 @@ void listarXogos()
 	if(!erro) EXEC SQL COMMIT;
 	
 	buscarXogoCodigo();
+*/
 }
 
 
