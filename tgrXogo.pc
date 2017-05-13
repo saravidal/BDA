@@ -482,7 +482,9 @@ void listarCriticasAutor(char *id)
         //printf("%s\n", id);
         
         strncpy(identificador, id, 26);
-
+        //int last = strlen(identificador) -1;
+	//if ( (identificador[last]=='\r') || (identificador[last]=='\n') )
+		identificador[26] = '\0';
         //printf("%s\n", identificador);
 
 
