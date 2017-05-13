@@ -431,7 +431,7 @@ void listarCriticasXogo( int id)
 	EXEC SQL END DECLARE SECTION;
 
         identificador=id;
-
+        
         //strncpy(identificador, id, 25);
 
 	EXEC SQL SET TRANSACTION READ ONLY;	
@@ -470,7 +470,7 @@ void listarCriticasAutor(char *id)
 	
 	printf("Función listarCriticasAutor().\n");
    	EXEC SQL BEGIN DECLARE SECTION;
-      	char identificador[26];
+      	char patron[28];
         int codCritic;
         char tituloCritic[51];
         char xogo[51];
@@ -481,11 +481,15 @@ void listarCriticasAutor(char *id)
 
         //printf("%s\n", id);
         
-        strncpy(identificador, id, 26);
+        //strncpy(identificador, id, 26);
         //int last = strlen(identificador) -1;
 	//if ( (identificador[last]=='\r') || (identificador[last]=='\n') )
-		identificador[26] = '\0';
+		//identificador[26] = 0;
         //printf("%s\n", identificador);
+
+strcpy(patron, "%");
+	strcpy(patron, id);
+	strcpy(patron, "%");
 
 
 	EXEC SQL SET TRANSACTION READ ONLY;	
@@ -493,7 +497,7 @@ void listarCriticasAutor(char *id)
 		EXEC SQL DECLARE cursor_criticsA CURSOR FOR
                 SELECT codCritic, tituloCritic, (SELECT tituloXogo FROM xogo WHERE codXogo=c.xogo), puntuacion 
                 FROM critica c 
-		WHERE autor=:identificador;
+		WHERE autor LIKE :patron;
 
 	EXEC SQL OPEN cursor_criticsA;	
 	EXEC SQL WHENEVER NOT FOUND DO BREAK;
