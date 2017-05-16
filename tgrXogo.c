@@ -129,18 +129,28 @@ static int IAPFAIL = 1403;
 static int IAPFTL  = 535;
 extern void sqliem(/*_ unsigned char *, signed int * _*/);
 
- static char *sq0019 = 
+ static char *sq0023 = 
 "SELECT codCritic , tituloCritic , ( SELECT nome FROM autor WHERE idAutor = \
 c . autor ) , puntuacion FROM critica c WHERE xogo = :b0            ";
 
- static char *sq0022 = 
+ static char *sq0026 = 
 "SELECT codCritic , tituloCritic , ( SELECT tituloXogo FROM xogo WHERE codXo\
-go = c . xogo ) , puntuacion FROM critica c WHERE autor LIKE :b0            ";
+go = c . xogo ) , puntuacion FROM critica c WHERE autor = :b0            ";
+
+ static char *sq0032 = 
+"SELECT codXogo , tituloXogo , TO_CHAR ( dataDeSaida , 'dd/mm/yyyy' ) , voto\
+sPositivos , votosNegativos , nvl ( ( SELECT AVG ( puntuacion ) FROM critica \
+WHERE xogo = x . codXogo ) , 0 ) FROM xogo x WHERE tituloXogo LIKE :b0       \
+     ";
 
  static char *sq0035 = 
+"SELECT idAutor , nome , enlace , tipo FROM autor WHERE nome LIKE :b0       \
+     ";
+
+ static char *sq0038 = 
 "SELECT codXogo , tituloXogo , TO_CHAR ( dataDeSaida , 'dd/mm/yyyy' ) , voto\
-sPositivos , votosNegativos , ( SELECT AVG ( puntuacion ) FROM critica WHERE \
-xogo = x . codXogo ) FROM xogo x            ";
+sPositivos , votosNegativos , nvl ( ( SELECT AVG ( puntuacion ) FROM critica \
+WHERE xogo = x . codXogo ) , 0 ) FROM xogo x            ";
 
 typedef struct { unsigned short len; unsigned char arr[1]; } VARCHAR;
 typedef struct { unsigned short len; unsigned char arr[1]; } varchar;
@@ -148,81 +158,93 @@ typedef struct { unsigned short len; unsigned char arr[1]; } varchar;
 /* CUD (Compilation Unit Data) Array */
 static short sqlcud0[] =
 {13,4130,873,0,0,
-5,0,0,1,0,0,31,106,0,0,0,0,0,1,0,
-20,0,0,0,0,0,27,124,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,10,0,0,1,10,0,0,
-51,0,0,3,0,0,30,132,0,0,0,0,0,1,0,
-66,0,0,4,86,0,3,181,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,97,0,0,1,97,0,0,
-97,0,0,5,0,0,29,185,0,0,0,0,0,1,0,
-112,0,0,6,130,0,3,234,0,0,6,6,0,1,0,1,97,0,0,1,97,0,0,1,3,0,0,1,97,0,0,1,3,0,0,
+5,0,0,1,0,0,31,137,0,0,0,0,0,1,0,
+20,0,0,0,0,0,27,163,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,10,0,0,1,10,0,0,
+51,0,0,3,0,0,30,171,0,0,0,0,0,1,0,
+66,0,0,4,46,0,1,200,0,0,0,0,0,1,0,
+81,0,0,5,86,0,3,227,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,97,0,0,1,97,0,0,
+112,0,0,6,0,0,29,232,0,0,0,0,0,1,0,
+127,0,0,7,46,0,1,264,0,0,0,0,0,1,0,
+142,0,0,8,130,0,3,292,0,0,6,6,0,1,0,1,97,0,0,1,97,0,0,1,3,0,0,1,97,0,0,1,3,0,0,
 1,97,0,0,
-151,0,0,7,0,0,29,238,0,0,0,0,0,1,0,
-166,0,0,8,113,0,3,275,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,3,0,0,1,3,0,0,
-197,0,0,9,0,0,29,279,0,0,0,0,0,1,0,
-212,0,0,10,38,0,2,301,0,0,1,1,0,1,0,1,97,0,0,
-231,0,0,11,0,0,29,310,0,0,0,0,0,1,0,
-246,0,0,12,37,0,2,329,0,0,1,1,0,1,0,1,3,0,0,
-265,0,0,13,0,0,29,338,0,0,0,0,0,1,0,
-280,0,0,14,25,0,1,365,0,0,0,0,0,1,0,
-295,0,0,15,0,0,29,370,0,0,0,0,0,1,0,
-310,0,0,16,291,0,4,374,0,0,8,1,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,97,0,0,2,3,0,
+181,0,0,9,0,0,29,296,0,0,0,0,0,1,0,
+196,0,0,10,46,0,1,323,0,0,0,0,0,1,0,
+211,0,0,11,113,0,3,342,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,3,0,0,1,3,0,0,
+242,0,0,12,0,0,29,346,0,0,0,0,0,1,0,
+257,0,0,13,46,0,1,369,0,0,0,0,0,1,0,
+272,0,0,14,38,0,2,375,0,0,1,1,0,1,0,1,97,0,0,
+291,0,0,15,0,0,29,384,0,0,0,0,0,1,0,
+306,0,0,16,46,0,1,404,0,0,0,0,0,1,0,
+321,0,0,17,37,0,2,410,0,0,1,1,0,1,0,1,3,0,0,
+340,0,0,18,0,0,29,419,0,0,0,0,0,1,0,
+355,0,0,19,25,0,1,453,0,0,0,0,0,1,0,
+370,0,0,20,291,0,4,455,0,0,8,1,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,97,0,0,2,3,0,
 0,2,97,0,0,2,97,0,0,1,3,0,0,
-357,0,0,17,0,0,29,388,0,0,0,0,0,1,0,
-372,0,0,18,25,0,1,409,0,0,0,0,0,1,0,
-387,0,0,19,143,0,9,416,0,0,1,1,0,1,0,1,3,0,0,
-406,0,0,19,0,0,13,419,0,0,4,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,
-437,0,0,19,0,0,15,431,0,0,0,0,0,1,0,
-452,0,0,20,0,0,29,433,0,0,0,0,0,1,0,
-467,0,0,21,25,0,1,467,0,0,0,0,0,1,0,
-482,0,0,22,151,0,9,474,0,0,1,1,0,1,0,1,97,0,0,
-501,0,0,22,0,0,13,477,0,0,4,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,
-532,0,0,22,0,0,15,489,0,0,0,0,0,1,0,
-547,0,0,23,0,0,29,491,0,0,0,0,0,1,0,
-562,0,0,24,25,0,1,512,0,0,0,0,0,1,0,
-577,0,0,25,0,0,29,519,0,0,0,0,0,1,0,
-592,0,0,26,247,0,4,522,0,0,7,1,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
+417,0,0,21,0,0,29,477,0,0,0,0,0,1,0,
+432,0,0,22,25,0,1,506,0,0,0,0,0,1,0,
+447,0,0,23,143,0,9,513,0,0,1,1,0,1,0,1,3,0,0,
+466,0,0,23,0,0,13,519,0,0,4,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,
+497,0,0,23,0,0,15,537,0,0,0,0,0,1,0,
+512,0,0,24,0,0,29,540,0,0,0,0,0,1,0,
+527,0,0,25,25,0,1,582,0,0,0,0,0,1,0,
+542,0,0,26,148,0,9,589,0,0,1,1,0,1,0,1,97,0,0,
+561,0,0,26,0,0,13,595,0,0,4,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,
+592,0,0,26,0,0,15,613,0,0,0,0,0,1,0,
+607,0,0,27,0,0,29,616,0,0,0,0,0,1,0,
+622,0,0,28,25,0,1,656,0,0,0,0,0,1,0,
+637,0,0,29,259,0,4,662,0,0,7,1,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
 2,3,0,0,1,3,0,0,
-635,0,0,27,0,0,29,537,0,0,0,0,0,1,0,
-650,0,0,28,25,0,1,559,0,0,0,0,0,1,0,
-665,0,0,29,253,0,4,568,0,0,7,1,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
-2,3,0,0,1,97,0,0,
-708,0,0,30,0,0,29,583,0,0,0,0,0,1,0,
-723,0,0,31,25,0,1,603,0,0,0,0,0,1,0,
-738,0,0,32,99,0,4,612,0,0,5,1,0,1,0,2,97,0,0,2,97,0,0,2,97,0,0,2,97,0,0,1,97,0,
-0,
-773,0,0,33,0,0,29,627,0,0,0,0,0,1,0,
-788,0,0,34,25,0,1,649,0,0,0,0,0,1,0,
-803,0,0,35,196,0,9,655,0,0,0,0,0,1,0,
-818,0,0,35,0,0,13,659,0,0,6,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
+680,0,0,30,0,0,29,682,0,0,0,0,0,1,0,
+695,0,0,31,25,0,1,710,0,0,0,0,0,1,0,
+710,0,0,32,234,0,9,728,0,0,1,1,0,1,0,1,97,0,0,
+729,0,0,32,0,0,13,734,0,0,6,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
 2,3,0,0,
-857,0,0,35,0,0,15,673,0,0,0,0,0,1,0,
-872,0,0,36,0,0,29,675,0,0,0,0,0,1,0,
-887,0,0,37,25,0,1,690,0,0,0,0,0,1,0,
-902,0,0,38,103,0,4,694,0,0,4,1,0,1,0,2,97,0,0,2,3,0,0,2,3,0,0,1,3,0,0,
-933,0,0,39,0,0,29,704,0,0,0,0,0,1,0,
-948,0,0,40,63,0,5,732,0,0,3,3,0,1,0,1,97,0,0,1,97,0,0,1,97,0,0,
-975,0,0,41,0,0,29,737,0,0,0,0,0,1,0,
-990,0,0,42,72,0,5,758,0,0,1,1,0,1,0,1,3,0,0,
-1009,0,0,43,0,0,29,763,0,0,0,0,0,1,0,
-1024,0,0,44,72,0,5,786,0,0,1,1,0,1,0,1,3,0,0,
-1043,0,0,45,0,0,29,791,0,0,0,0,0,1,0,
+768,0,0,32,0,0,15,755,0,0,0,0,0,1,0,
+783,0,0,33,0,0,29,758,0,0,0,0,0,1,0,
+798,0,0,34,25,0,1,795,0,0,0,0,0,1,0,
+813,0,0,35,80,0,9,810,0,0,1,1,0,1,0,1,97,0,0,
+832,0,0,35,0,0,13,816,0,0,4,0,0,1,0,2,9,0,0,2,97,0,0,2,97,0,0,2,97,0,0,
+863,0,0,35,0,0,15,835,0,0,0,0,0,1,0,
+878,0,0,36,0,0,29,838,0,0,0,0,0,1,0,
+893,0,0,37,25,0,1,877,0,0,0,0,0,1,0,
+908,0,0,38,208,0,9,886,0,0,0,0,0,1,0,
+923,0,0,38,0,0,13,892,0,0,6,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
+2,3,0,0,
+962,0,0,38,0,0,15,914,0,0,0,0,0,1,0,
+977,0,0,39,0,0,29,916,0,0,0,0,0,1,0,
+992,0,0,40,25,0,1,951,0,0,0,0,0,1,0,
+1007,0,0,41,103,0,4,955,0,0,4,1,0,1,0,2,97,0,0,2,3,0,0,2,3,0,0,1,3,0,0,
+1038,0,0,42,0,0,29,965,0,0,0,0,0,1,0,
+1053,0,0,43,44,0,1,988,0,0,0,0,0,1,0,
+1068,0,0,44,63,0,5,999,0,0,3,3,0,1,0,1,97,0,0,1,97,0,0,1,97,0,0,
+1095,0,0,45,0,0,29,1004,0,0,0,0,0,1,0,
+1110,0,0,46,44,0,1,1026,0,0,0,0,0,1,0,
+1125,0,0,47,72,0,5,1032,0,0,1,1,0,1,0,1,3,0,0,
+1144,0,0,48,0,0,29,1037,0,0,0,0,0,1,0,
+1159,0,0,49,44,0,1,1060,0,0,0,0,0,1,0,
+1174,0,0,50,72,0,5,1066,0,0,1,1,0,1,0,1,3,0,0,
+1193,0,0,51,0,0,29,1071,0,0,0,0,0,1,0,
 };
 
 
 /*
- * Autores:
- * Daniel López López (d.lopez.lopez@udc.es)
- * Sara Vidal García (sara.vidal@udc.es) 
- * Universidade da Coruña
  *
- * BDA - Curso 2016-2017
+ *	 BASES DE DATOS AVANZADAS - TRABALLO TUTELADO
+ *	APLICACION PARA XESTIONAR UNHA BD DE VIDEOXOGOS
+ *	
+ * 	Autores:
+ * 		Daniel Lopez Lopez (d.lopez.lopez@udc.es)
+ * 		Sara Vidal Garcia (sara.vidal@udc.es) 
+ *	
+ *	Grupo 1.1 - Curso 2016-17 
  *
- * TGR - XOGOS
  */
 
 #include<stdlib.h>
 #include<stdio.h>
 #include<string.h>
 #include<time.h>
+
 /* EXEC SQL INCLUDE SQLCA;
  */ 
 /*
@@ -326,95 +348,123 @@ SQLCA_STORAGE_CLASS struct sqlca sqlca
 /* end SQLCA */
 
 
-/*
- * Utilidades para menús e ler valores por teclado.  
+
+/* ______________________________________________________
+ * 
+ * Utilidades para menus e ler valores por teclado.  
+ * ______________________________________________________
  */
+
 #define MAXLEN 20
-void get_string(char *s, int maxlen){
+
+void getString(char *s, int maxlen){
 	fgets(s,maxlen,stdin);
 	int last = strlen(s) -1;
 	if ( (s[last]=='\r') || (s[last]=='\n') )
 		s[last] = '\0';
 }
 
-void get_password(char *s, int maxlen){
+
+void getPassword(char *s, int maxlen){
 	system("stty -echo");
-	get_string(s,maxlen);
+	getString(s,maxlen);
 	system("stty echo");
 }
 
-int get_int(){
+
+int getInt(){
 	char s[MAXLEN];
-	get_string(s,MAXLEN);
+	getString(s,MAXLEN);
 	return atoi(s);
 }
 
-float get_float(){
+
+float getFloat(){
 	char s[MAXLEN];
-	get_string(s,MAXLEN);
+	getString(s,MAXLEN);
 	return atof(s);
 }
 
 
 
-/* Menú principal */
+/* ______________________________________________________
+ * 
+ * Menu principal. 
+ * ______________________________________________________
+ */
 
-int menu()
-{
-  int opcion = -1;
+int menu(){
+	int opcion = -1;
 
-  int MAXOPTS = 12; /* Número de opcións do menú */
+	int MAXOPTS = 12; /* Numero de opcions do menu */
 
-  printf("Menu da aplicación de Xogos\n");
-  printf("==================\n\n");
-  printf(" 1. Listar Xogos\n");
-  printf(" 2. Buscar Xogo\n");
-  printf(" 3. Buscar Autor\n");
-  printf(" 4. Engadir Critica\n");
-  printf(" 5. Engadir Autor\n");
-  printf(" 6. Engadir Xogo\n");
-  printf(" 7. Eliminar Xogo\n");
-  printf(" 8. Eliminar Autor\n");
-  printf(" 9. Editar Datos Autor\n");
-  printf("10. Votar positivamente\n");
-  printf("11. Votar negativamente\n");
-  printf("0. Sair\n");
+	printf(" _____________________________ \n");
+	printf("|                             |\n");
+	printf("| Menu da aplicacion de xogos |\n");
+	printf("|                             |\n");
+	printf("|=============================|\n");
+	printf("| 1. Listar Xogos             |\n");
+	printf("| 2. Engadir Xogo             |\n");
+	printf("| 3. Buscar Xogo              |\n");
+	printf("| 4. Eliminar Xogo            |\n");
+	printf("| 5. Engadir Autor            |\n");
+	printf("| 6. Buscar Autor             |\n");
+	printf("| 7. Editar Datos Autor       |\n");
+	printf("| 8. Eliminar Autor           |\n");
+	printf("| 9. Engadir Critica          |\n");
+	printf("|10. Votar positivamente      |\n");
+	printf("|11. Votar negativamente      |\n");
+	printf("|_____________________________|\n");
+	printf("|                             |\n");
+	printf("| 0. Sair da aplicacion       |\n");
+	printf("|_____________________________|\n\n");
 
-  while ( (opcion < 0) || (opcion > MAXOPTS)){
-      printf("OP> ");
-      opcion=get_int();
-  }
-  return opcion;
+	while ( (opcion < 0) || (opcion > MAXOPTS)){
+		printf("OP> ");
+		opcion=getInt();
+	}
+	return opcion;
 }
 
 
-void erroManager_conexion(char *usr){
+
+/* ______________________________________________________
+ * 
+ * Funcions para a xestion de erros. 
+ * ______________________________________________________
+ */
+
+
+void erroManagerConexion(char *usr){
 	/* EXEC SQL WHENEVER SQLERROR CONTINUE; */ 
 
 	switch (sqlca.sqlcode){
-		case -1017: printf("Credenciais de %s invalidas. Abortando conexion.\n", usr);
+		case -1017: printf("Credenciais de %s invalidas. Abortando conexion.\n\n", usr);
 				break;
-		case -1012: printf("Non estabas conectado. Saindo do programa.\n");
+		case -1012: printf("Non estabas conectado. Saindo do programa.\n\n");
 				break;
-		default: printf("Estado: Código %d, Mensaxe: %.*s.\n",
-	sqlca.sqlcode,
-	sqlca.sqlerrm.sqlerrml,
-	sqlca.sqlerrm.sqlerrmc);
+		default: printf("Estado: Codigo %d, Mensaxe: %.*s.\n",
+				sqlca.sqlcode,
+				sqlca.sqlerrm.sqlerrml,
+				sqlca.sqlerrm.sqlerrmc);
 	}
 	exit(-1);
 }
 
-int errorManager_DML(){
+
+int errorManagerDML(){
 	int retval = sqlca.sqlcode; 
 	/* EXEC SQL WHENEVER SQLERROR CONTINUE; */ 
 
 	switch (sqlca.sqlcode){
-		case -1: printf("Non podo insertar o artigo, o código xa existe.\n\n");
-
-		default: printf("\nEstado: Código %d, Mensaxe: %.*s.\n",
-		sqlca.sqlcode,
-		sqlca.sqlerrm.sqlerrml,
-		sqlca.sqlerrm.sqlerrmc);
+		case -1: printf("Erro: O DNI/CIF xa existe na base de datos.\n\n"); 
+				break;
+		case -1400: printf("Erro: Os campos marcados con * son de caracter obligatorio.\n\n"); 
+				break;
+		default: printf("\nErro: Estado: Código %d, Mensaxe: %.*s.\n\n",
+				sqlca.sqlcode,
+				sqlca.sqlerrm.sqlerrml,
+				sqlca.sqlerrm.sqlerrmc);
 	}
 	/* EXEC SQL ROLLBACK; */ 
 
@@ -433,14 +483,22 @@ int errorManager_DML(){
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
 }
 
- //Dependiendo del caso quiza no queremos hacer un rollback
+
 	return retval;
 }
 
-/* Funcionalidadess de base de datos */
 
-void conecta_bd(){
-   	/* EXEC SQL WHENEVER SQLERROR DO erroManager_conexion(usuario); */ 
+
+/* ______________________________________________________
+ * 
+ * Conexion e desconexion a base de datos. 
+ * ______________________________________________________
+ */
+
+
+void conectaBD(){
+   	/* EXEC SQL WHENEVER SQLERROR DO erroManagerConexion(usuario); */ 
+
 
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
 
@@ -450,8 +508,8 @@ void conecta_bd(){
 
 
    	printf("Introduce as tuas credenciais de Oracle:\n");  
-   	printf("Usuario: "); get_string(usuario,30);
-   	printf("Clave: "); get_password(clave,30);
+   	printf("Usuario: "); getString(usuario,30);
+   	printf("Clave: "); getPassword(clave,30);
    	printf("\n\nConectando con Oracle...\n");
    
    	/* EXEC SQL CONNECT :usuario IDENTIFIED BY :clave; */ 
@@ -499,7 +557,7 @@ void conecta_bd(){
     sqlstm.sqlctimeout = (unsigned int )0;
     sqlstm.sqlcnowait = (unsigned int )0;
     sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-    if (sqlca.sqlcode < 0) erroManager_conexion(usuario);
+    if (sqlca.sqlcode < 0) erroManagerConexion(usuario);
 }
 
 
@@ -508,8 +566,8 @@ void conecta_bd(){
 }
 
 
-void desconecta_bd(){
-   /* EXEC SQL WHENEVER SQLERROR DO erroManager_conexion(""); */ 
+void desconectaBD(){
+   /* EXEC SQL WHENEVER SQLERROR DO erroManagerConexion(""); */ 
 
    /* EXEC SQL COMMIT RELEASE; */ 
 
@@ -526,7 +584,7 @@ void desconecta_bd(){
    sqlstm.sqlety = (unsigned short)4352;
    sqlstm.occurs = (unsigned int  )0;
    sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-   if (sqlca.sqlcode < 0) erroManager_conexion("");
+   if (sqlca.sqlcode < 0) erroManagerConexion("");
 }
 
 
@@ -534,15 +592,19 @@ void desconecta_bd(){
 
 
 
+/* ______________________________________________________
+ * 
+ * Engadir un autor a base de datos.
+ *
+ * Nota: Se doCommit == 0, esta funcionalidade vai incluida
+ * dentro da funcionalidade de engadir unha critica.
+ * ______________________________________________________
+ */
 
 
-
-
-
-
-void engadir_autor(){
+void engadirAutor(int doCommit){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
    	
 	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -555,31 +617,53 @@ void engadir_autor(){
 		int pausa;
    	/* EXEC SQL END DECLARE SECTION; */ 
 
+
+	if(doCommit==1)
+		/* EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITTED; */ 
+
+{
+  struct sqlexd sqlstm;
+  sqlstm.sqlvsn = 13;
+  sqlstm.arrsiz = 4;
+  sqlstm.sqladtp = &sqladt;
+  sqlstm.sqltdsp = &sqltds;
+  sqlstm.stmt = "set transaction ISOLATION LEVEL READ COMMITTED";
+  sqlstm.iters = (unsigned int  )1;
+  sqlstm.offset = (unsigned int  )66;
+  sqlstm.cud = sqlcud0;
+  sqlstm.sqlest = (unsigned char  *)&sqlca;
+  sqlstm.sqlety = (unsigned short)4352;
+  sqlstm.occurs = (unsigned int  )0;
+  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
 	
-	printf("REXISTRO DE AUTORES\n\n");
+
+	printf("\n\n---REXISTRO DE AUTORES---\n\n");
 	printf("Que clase de rexistro desexa facer:\n");
    	printf("(1)\tPersoa individual\n");
 	printf("(2)\tGrupo\n");
-	printf("Seleccione a opción que mais se axuste a vostede.");
+	printf("Seleccione a opcion que mais se axuste a vostede.");
 	printf("\n\t> ");
-	tipoxeral = get_int();
+	tipoxeral = getInt();
 
 	if (tipoxeral == 1){
 		printf("DATOS PERSOAIS:\n");
 		strcpy(tipo, "PARTICULAR");
 		printf("(*) DNI\n\t> ");
-		get_string(id,25);
+		getString(id,25);
 	}else{
 		printf("DATOS DO GRUPO:\n");
 		printf("(*) CIF ou identificador\n\t> ");
-		get_string(id,25);
+		getString(id,25);
 		printf("(*) Tipo (empresa, revista...)\n\t> ");
-		get_string(tipo,30);
+		getString(tipo,30);
 	}
 	printf("(*) Nome\n\t> ");
-	get_string(nome,50);
+	getString(nome,50);
 	printf("Enlace a sua paxina web\n\t> ");
-	get_string(enlace,256);
+	getString(enlace,256);
    	
    	/* EXEC SQL INSERT INTO autor(idAutor,nome,enlace,tipo)
    	VALUES (:id, :nome, :enlace, :tipo); */ 
@@ -593,7 +677,7 @@ void engadir_autor(){
     sqlstm.stmt = "insert INTO autor ( idAutor , nome , enlace , tipo ) VAL\
 UES ( :b0 , :b1 , :b2 , :b3 ) ";
     sqlstm.iters = (unsigned int  )1;
-    sqlstm.offset = (unsigned int  )66;
+    sqlstm.offset = (unsigned int  )81;
     sqlstm.cud = sqlcud0;
     sqlstm.sqlest = (unsigned char  *)&sqlca;
     sqlstm.sqlety = (unsigned short)4352;
@@ -640,40 +724,50 @@ UES ( :b0 , :b1 , :b2 , :b3 ) ";
     sqlstm.sqpadto = sqlstm.sqadto;
     sqlstm.sqptdso = sqlstm.sqtdso;
     sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-    if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+    if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
    
 	if(erro==0){
-		/* EXEC SQL COMMIT; */ 
+		if(doCommit==1)
+			/* EXEC SQL COMMIT; */ 
 
 {
-  struct sqlexd sqlstm;
-  sqlstm.sqlvsn = 13;
-  sqlstm.arrsiz = 4;
-  sqlstm.sqladtp = &sqladt;
-  sqlstm.sqltdsp = &sqltds;
-  sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )97;
-  sqlstm.cud = sqlcud0;
-  sqlstm.sqlest = (unsigned char  *)&sqlca;
-  sqlstm.sqlety = (unsigned short)4352;
-  sqlstm.occurs = (unsigned int  )0;
-  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+   struct sqlexd sqlstm;
+   sqlstm.sqlvsn = 13;
+   sqlstm.arrsiz = 4;
+   sqlstm.sqladtp = &sqladt;
+   sqlstm.sqltdsp = &sqltds;
+   sqlstm.iters = (unsigned int  )1;
+   sqlstm.offset = (unsigned int  )112;
+   sqlstm.cud = sqlcud0;
+   sqlstm.sqlest = (unsigned char  *)&sqlca;
+   sqlstm.sqlety = (unsigned short)4352;
+   sqlstm.occurs = (unsigned int  )0;
+   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+   if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
+		
 		printf("\n\nAutor insertado con exito\n\n\n");
 	}
-	pausa = get_int();
+
+	printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
 }
 
 
-void engadir_critica(){
+
+/* ______________________________________________________
+ * 
+ * Engadir unha critica a base de datos. 
+ * ______________________________________________________
+ */
+
+void engadirCritica(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
    	
 	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -690,28 +784,49 @@ void engadir_critica(){
 		int pausa;
    	/* EXEC SQL END DECLARE SECTION; */ 
 
+	/* EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITTED; */ 
 
-	printf("CRITICAS\n\n");
-	printf("Autor xa rexistrado ou novo autor?:\n");
-   	printf("(1)\tNovo\n");
-	printf("(2)\tExistente\n");
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 4;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.stmt = "set transaction ISOLATION LEVEL READ COMMITTED";
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )127;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+
+	printf("\n\n---CRITICAS---\n\n");
+	printf("Queres rexistrarte primeiro?:\n");
+   	printf("(1)\tRexistrarse\n");
+	printf("(2)\tXa estou rexistrado\n");
 	printf("\n\t> ");
-	autor = get_int();
+	autor = getInt();
 
 	if (autor == 1){
-		engadir_autor();
-		printf("CRITICAS\n\n");
+
+		engadirAutor(0);
+		printf("\n\n---CRITICAS---\n\n");
 	}	
 	printf("Identificador do autor\n\t> ");
-	get_string(idAutor,25);
+	getString(idAutor,25);
 	printf("(*) Codigo do xogo\n\t> ");
-	xogo = get_int();
+	xogo = getInt();
 	printf("(*) Titulo da critica\n\t> ");
-	get_string(titulo,50);
+	getString(titulo,50);
 	printf("(*) Puntuacion sobre 100:\n\t>");
-	puntuacion = get_int();
+	puntuacion = getInt();
 	printf("Descricion (un unico paragrafo)\n\t> ");
-	get_string(descricion,500);
+	getString(descricion,500);
 	tempo = time(0);
 	tlocal = localtime(&tempo);
 	strftime(data,128,"%d/%m/%y",tlocal);	
@@ -728,7 +843,7 @@ void engadir_critica(){
     sqlstm.stmt = "insert INTO critica ( tituloCritic , data , puntuacion ,\
  descricion , xogo , autor ) VALUES ( :b0 , :b1 , :b2 , :b3 , :b4 , :b5 ) ";
     sqlstm.iters = (unsigned int  )1;
-    sqlstm.offset = (unsigned int  )112;
+    sqlstm.offset = (unsigned int  )142;
     sqlstm.cud = sqlcud0;
     sqlstm.sqlest = (unsigned char  *)&sqlca;
     sqlstm.sqlety = (unsigned short)4352;
@@ -791,7 +906,7 @@ void engadir_critica(){
     sqlstm.sqpadto = sqlstm.sqadto;
     sqlstm.sqptdso = sqlstm.sqtdso;
     sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-    if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+    if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
@@ -806,25 +921,33 @@ void engadir_critica(){
   sqlstm.sqladtp = &sqladt;
   sqlstm.sqltdsp = &sqltds;
   sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )151;
+  sqlstm.offset = (unsigned int  )181;
   sqlstm.cud = sqlcud0;
   sqlstm.sqlest = (unsigned char  *)&sqlca;
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 		printf("\n\nCritica insertada con exito\n\n\n");
 	}
-	pausa = get_int();
+
+	printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
 }
 
 
-void engadir_xogo(){
+
+/* ______________________________________________________
+ * 
+ * Engadir un xogo a base de datos.
+ * ______________________________________________________
+ */
+
+void engadirXogo(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
    	
 	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -837,16 +960,36 @@ void engadir_xogo(){
 		int votosPositivos,votosNegativos,pausa;
    	/* EXEC SQL END DECLARE SECTION; */ 
 
+	/* EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITTED; */ 
+
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 6;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.stmt = "set transaction ISOLATION LEVEL READ COMMITTED";
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )196;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
 	
-	printf("REXISTRO DE XOGOS\n\n");
+	printf("\n\n---REXISTRO DE XOGOS---\n\n");
 	printf("(*) Titulo\n\t> ");
-	get_string(tituloXogo,50);
+	getString(tituloXogo,50);
 	printf("Data de saida:\n\t>Dia(dd): ");
-	get_string(dia,4);
+	getString(dia,4);
 	printf("\n\t>Mes(mm): ");
-	get_string(mes,4);
+	getString(mes,4);
 	printf("\n\t>Ano(yyyy): ");
-	get_string(ano,6);
+	getString(ano,6);
 	strcpy(dataDeSaida,dia);
 	strcat(dataDeSaida,"/");
 	strcat(dataDeSaida,mes);
@@ -867,7 +1010,7 @@ void engadir_xogo(){
     sqlstm.stmt = "insert INTO xogo ( tituloXogo , dataDeSaida , votosPosit\
 ivos , votosNegativos ) VALUES ( :b0 , :b1 , :b2 , :b3 ) ";
     sqlstm.iters = (unsigned int  )1;
-    sqlstm.offset = (unsigned int  )166;
+    sqlstm.offset = (unsigned int  )211;
     sqlstm.cud = sqlcud0;
     sqlstm.sqlest = (unsigned char  *)&sqlca;
     sqlstm.sqlety = (unsigned short)4352;
@@ -914,7 +1057,7 @@ ivos , votosNegativos ) VALUES ( :b0 , :b1 , :b2 , :b3 ) ";
     sqlstm.sqpadto = sqlstm.sqadto;
     sqlstm.sqptdso = sqlstm.sqtdso;
     sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-    if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+    if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
@@ -929,27 +1072,33 @@ ivos , votosNegativos ) VALUES ( :b0 , :b1 , :b2 , :b3 ) ";
   sqlstm.sqladtp = &sqladt;
   sqlstm.sqltdsp = &sqltds;
   sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )197;
+  sqlstm.offset = (unsigned int  )242;
   sqlstm.cud = sqlcud0;
   sqlstm.sqlest = (unsigned char  *)&sqlca;
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 		printf("\n\nXogo insertado con exito\n\n\n");
 	}
-	pausa = get_int();
+
+	printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
 }
 
 
 
-void eliminar_autor()
-{
+/* ______________________________________________________
+ * 
+ * Eliminar un autor da base de datos.
+ * ______________________________________________________
+ */
+
+void eliminarAutor(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
 
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -958,10 +1107,30 @@ void eliminar_autor()
 		int pausa;
 	/* EXEC SQL END DECLARE SECTION; */ 
 
+	/* EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITTED; */ 
 
-	printf("ELIMINACION DE AUTORES\n\n");
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 6;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.stmt = "set transaction ISOLATION LEVEL READ COMMITTED";
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )257;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+	
+	printf("\n\n---ELIMINACION DE AUTOR---ES\n\n");
 	printf("Identificador do autor\n\t> "); 
-	get_string(id,25);
+	getString(id,25);
 
 	/* EXEC SQL DELETE FROM autor 
 		WHERE idAutor = :id; */ 
@@ -974,7 +1143,7 @@ void eliminar_autor()
  sqlstm.sqltdsp = &sqltds;
  sqlstm.stmt = "delete FROM autor WHERE idAutor = :b0 ";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )212;
+ sqlstm.offset = (unsigned int  )272;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
@@ -997,7 +1166,7 @@ void eliminar_autor()
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
@@ -1005,7 +1174,7 @@ void eliminar_autor()
 	if (sqlca.sqlerrd[2] > 0)
 		printf("\nAutor eliminado con exito\n\n\n");
 	else
-		printf("\nAutor non eliminado\n\n\n");
+		printf("\nNon se atopou ningun autor con ese identificador.\n\n\n");
 
 	if (!erro) 
 		/* EXEC SQL COMMIT; */ 
@@ -1017,25 +1186,31 @@ void eliminar_autor()
   sqlstm.sqladtp = &sqladt;
   sqlstm.sqltdsp = &sqltds;
   sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )231;
+  sqlstm.offset = (unsigned int  )291;
   sqlstm.cud = sqlcud0;
   sqlstm.sqlest = (unsigned char  *)&sqlca;
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 
-	pausa = get_int();
+	printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
 }
 
 
-void eliminar_xogo()
-{
+
+/* ______________________________________________________
+ * 
+ * Eliminar un xogo da base de datos.
+ * ______________________________________________________
+ */
+
+void eliminarXogo(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
 
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -1043,10 +1218,30 @@ void eliminar_xogo()
       		int cod,pausa;
 	/* EXEC SQL END DECLARE SECTION; */ 
 
+	/* EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITTED; */ 
 
-	printf("ELIMINACION DE XOGOS\n\n");
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 6;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.stmt = "set transaction ISOLATION LEVEL READ COMMITTED";
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )306;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+
+	printf("\n\n---ELIMINACION DE XOGOS---\n\n");
 	printf("Codigo do xogo\n\t> "); 
-	cod = get_int();
+	cod = getInt();
 
 	/* EXEC SQL DELETE FROM xogo 
 		WHERE codXogo = :cod; */ 
@@ -1059,7 +1254,7 @@ void eliminar_xogo()
  sqlstm.sqltdsp = &sqltds;
  sqlstm.stmt = "delete FROM xogo WHERE codXogo = :b0 ";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )246;
+ sqlstm.offset = (unsigned int  )321;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
@@ -1082,7 +1277,7 @@ void eliminar_xogo()
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
@@ -1090,7 +1285,7 @@ void eliminar_xogo()
 	if (sqlca.sqlerrd[2] > 0)
 		printf("\nXogo eliminado con exito\n\n\n");
 	else
-		printf("\nXogo non eliminado\n\n\n");
+		printf("\nNon se atopou ningun xogo con ese codigo.\n\n\n");
 
 	if (!erro) 
 		/* EXEC SQL COMMIT; */ 
@@ -1102,44 +1297,51 @@ void eliminar_xogo()
   sqlstm.sqladtp = &sqladt;
   sqlstm.sqltdsp = &sqltds;
   sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )265;
+  sqlstm.offset = (unsigned int  )340;
   sqlstm.cud = sqlcud0;
   sqlstm.sqlest = (unsigned char  *)&sqlca;
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 
-	pausa = get_int();	
+	printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();	
 }
 
 
 
+/* ______________________________________________________
+ * 
+ * Buscar unha critica (parte da funcionalidad de buscar
+ * xogos por nome)
+ * ______________________________________________________
+ */
 
 void buscarCritica() {
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
 	
-	printf("Función buscarCritica().\n");
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
 
-        int codCritic;
-        char tituloCritic[51];
-        char autor[51];
-        int puntuacion;
-        char dataC[11];
-        short dataC_ind;
-        char descripcion[501];
-        char xogo[51];
+        	int codCritic;
+        	char tituloCritic[51];
+        	char autor[51];
+        	int puntuacion;
+        	char dataC[11];
+        	short dataC_ind;
+        	char descripcion[501];
+        	char xogo[51];
+		int pausa;
 	/* EXEC SQL END DECLARE SECTION; */ 
 
 
-        printf("Introduzca o código da crítica[0 para sair]: ");
-   	codCritic = get_int();
+        printf("\n\n---CRITICAS---\n\n");
+	printf("Codigo da critica\n\t> "); 
+   	codCritic = getInt();
 
         /* EXEC SQL SET TRANSACTION READ ONLY; */ 
 
@@ -1151,46 +1353,27 @@ void buscarCritica() {
         sqlstm.sqltdsp = &sqltds;
         sqlstm.stmt = "set transaction READ ONLY";
         sqlstm.iters = (unsigned int  )1;
-        sqlstm.offset = (unsigned int  )280;
+        sqlstm.offset = (unsigned int  )355;
         sqlstm.cud = sqlcud0;
         sqlstm.sqlest = (unsigned char  *)&sqlca;
         sqlstm.sqlety = (unsigned short)4352;
         sqlstm.occurs = (unsigned int  )0;
         sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-        if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+        if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 
-	//Control de salida
-        
-	if(codCritic == 0){
-		/* EXEC SQL COMMIT; */ 
-
-{
-  struct sqlexd sqlstm;
-  sqlstm.sqlvsn = 13;
-  sqlstm.arrsiz = 6;
-  sqlstm.sqladtp = &sqladt;
-  sqlstm.sqltdsp = &sqltds;
-  sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )295;
-  sqlstm.cud = sqlcud0;
-  sqlstm.sqlest = (unsigned char  *)&sqlca;
-  sqlstm.sqlety = (unsigned short)4352;
-  sqlstm.occurs = (unsigned int  )0;
-  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
-}
-
-
-                return;
-        }
-
-        /* EXEC SQL SELECT codCritic, tituloCritic, (SELECT tituloXogo FROM xogo WHERE codXogo=c.xogo), (SELECT nome FROM autor WHERE idAutor=c.autor), puntuacion,descricion, TO_CHAR(data, 'dd/mm/yyyy')
+        /* EXEC SQL SELECT codCritic, tituloCritic,
+			(SELECT tituloXogo 
+			FROM xogo WHERE codXogo=c.xogo), 
+			(SELECT nome 
+			FROM autor 
+			WHERE idAutor=c.autor), 
+			puntuacion,descricion, TO_CHAR(data, 'dd/mm/yyyy')
                 INTO :codCritic,:tituloCritic,:xogo,:autor,:puntuacion,:descripcion,:dataC:dataC_ind
-        FROM critica c
-        WHERE codCritic=:codCritic ; */ 
+        	FROM critica c
+        	WHERE codCritic=:codCritic ; */ 
 
 {
         struct sqlexd sqlstm;
@@ -1204,7 +1387,7 @@ or = c . autor ) , puntuacion , descricion , TO_CHAR ( data , 'dd/mm/yyyy' ) \
 INTO :b0 , :b1 , :b2 , :b3 , :b4 , :b5 , :b6:b7 FROM critica c WHERE codCriti\
 c = :b0 ";
         sqlstm.iters = (unsigned int  )1;
-        sqlstm.offset = (unsigned int  )310;
+        sqlstm.offset = (unsigned int  )370;
         sqlstm.selerr = (unsigned short)1;
         sqlstm.sqlpfmem = (unsigned int  )0;
         sqlstm.cud = sqlcud0;
@@ -1285,61 +1468,71 @@ c = :b0 ";
         sqlstm.sqpadto = sqlstm.sqadto;
         sqlstm.sqptdso = sqlstm.sqtdso;
         sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-        if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+        if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 
 	if(sqlca.sqlcode == 1403){
-		printf("Non hai criticas con ese código.");
+		printf("Non hai criticas con ese codigo.\n\n");
 	}else{
-		printf("--Criticas--\n--Codigo--\t--Titulo--\t--Autor--\t--Puntuacion--\n");
+		printf("--Codigo--\t--Titulo--\t--Autor--\t--Puntuacion--\n");
 		printf(" %d\t%s\t%s\t%s\t%d\n",codCritic,tituloCritic,xogo,autor,puntuacion);
 		printf("-----------------------------------------------------------------\n");
 		printf("%s\n",descripcion);
-		if(dataC_ind==0)printf("Datado de: %s\n",dataC);
+		if(dataC_ind==0)printf("Datado de: %s\n\n",dataC);
 	}
-	if(!erro) /* EXEC SQL COMMIT; */ 
+
+	if(!erro) 
+		/* EXEC SQL COMMIT; */ 
 
 {
-           struct sqlexd sqlstm;
-           sqlstm.sqlvsn = 13;
-           sqlstm.arrsiz = 8;
-           sqlstm.sqladtp = &sqladt;
-           sqlstm.sqltdsp = &sqltds;
-           sqlstm.iters = (unsigned int  )1;
-           sqlstm.offset = (unsigned int  )357;
-           sqlstm.cud = sqlcud0;
-           sqlstm.sqlest = (unsigned char  *)&sqlca;
-           sqlstm.sqlety = (unsigned short)4352;
-           sqlstm.occurs = (unsigned int  )0;
-           sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-           if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  struct sqlexd sqlstm;
+  sqlstm.sqlvsn = 13;
+  sqlstm.arrsiz = 8;
+  sqlstm.sqladtp = &sqladt;
+  sqlstm.sqltdsp = &sqltds;
+  sqlstm.iters = (unsigned int  )1;
+  sqlstm.offset = (unsigned int  )417;
+  sqlstm.cud = sqlcud0;
+  sqlstm.sqlest = (unsigned char  *)&sqlca;
+  sqlstm.sqlety = (unsigned short)4352;
+  sqlstm.occurs = (unsigned int  )0;
+  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
+
+	printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
 }
 
-void listarCriticasXogo( int id)
-{
+
+
+/* ______________________________________________________
+ * 
+ * Listar as criticas dun xogo (parte da funcionalidade de
+ * buscar xogos por codigo)
+ * ______________________________________________________
+ */
+
+void listarCriticasXogo( int id) {
         int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
 	
-	printf("Función listarCriticasXogo().\n");
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
 
-      	int identificador;
-        int codCritic;
-        char tituloCritic[51];
-        char autor[51];
-        int puntuacion;
+      		int identificador;
+        	int codCritic;
+        	char tituloCritic[51];
+        	char autor[51];
+        	int puntuacion;
+		int it1,menu,pausa;
 	/* EXEC SQL END DECLARE SECTION; */ 
 
 
         identificador=id;
-        
-        //strncpy(identificador, id, 25);
 
 	/* EXEC SQL SET TRANSACTION READ ONLY; */ 
 
@@ -1351,19 +1544,19 @@ void listarCriticasXogo( int id)
  sqlstm.sqltdsp = &sqltds;
  sqlstm.stmt = "set transaction READ ONLY";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )372;
+ sqlstm.offset = (unsigned int  )432;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 	
 	
-                /* EXEC SQL DECLARE cursor_critics CURSOR FOR
-                SELECT codCritic, tituloCritic, (SELECT nome FROM autor WHERE idAutor=c.autor), puntuacion 
+      	/* EXEC SQL DECLARE cursor_critics CURSOR FOR
+        	SELECT codCritic, tituloCritic, (SELECT nome FROM autor WHERE idAutor=c.autor), puntuacion 
                 FROM critica c 
 		WHERE xogo=:identificador; */ 
 
@@ -1376,9 +1569,9 @@ void listarCriticasXogo( int id)
  sqlstm.arrsiz = 8;
  sqlstm.sqladtp = &sqladt;
  sqlstm.sqltdsp = &sqltds;
- sqlstm.stmt = sq0019;
+ sqlstm.stmt = sq0023;
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )387;
+ sqlstm.offset = (unsigned int  )447;
  sqlstm.selerr = (unsigned short)1;
  sqlstm.sqlpfmem = (unsigned int  )0;
  sqlstm.cud = sqlcud0;
@@ -1404,12 +1597,15 @@ void listarCriticasXogo( int id)
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
-	
+
+
 	/* EXEC SQL WHENEVER NOT FOUND DO BREAK; */ 
 
+	
+	it1 = 0;
 	while(1) {
 		/* EXEC SQL FETCH cursor_critics
 		INTO :codCritic,:tituloCritic,:autor,:puntuacion; */ 
@@ -1421,7 +1617,7 @@ void listarCriticasXogo( int id)
   sqlstm.sqladtp = &sqladt;
   sqlstm.sqltdsp = &sqltds;
   sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )406;
+  sqlstm.offset = (unsigned int  )466;
   sqlstm.selerr = (unsigned short)1;
   sqlstm.sqlpfmem = (unsigned int  )0;
   sqlstm.cud = sqlcud0;
@@ -1473,21 +1669,27 @@ void listarCriticasXogo( int id)
   sqlstm.sqptdso = sqlstm.sqtdso;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
   if (sqlca.sqlcode == 1403) break;
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 		if(sqlca.sqlcode == 1403){
 			printf("Non hai criticas para este xogo.\n");
 		}else{
-			printf("--Criticas--\n--Codigo--\t--Titulo--\t--Autor--\t--Puntuacion--\n");
-			printf(" %d\t%s\t%s\t%d\n",codCritic,tituloCritic,autor,puntuacion);
+			if (it1 == 0){
+				printf("\n\n---LISTADO DE CRITICAS DO XOGO---\n\n");
+				printf("--Codigo--\t--Titulo--\t--Autor--\t--Puntuacion--\n\n");
+				it1++;
+			}
+			printf(" %d\t%s\t%s\t%d\n\n",codCritic,tituloCritic,autor,puntuacion);
 		}
 	}
         
         /* EXEC SQL WHENEVER NOT FOUND CONTINUE; */ 
 
-	printf("Criticas atopados: %d.\n", sqlca.sqlerrd[2]);
+	
+	printf("\nCriticas atopadas: %d.\n\n", sqlca.sqlerrd[2]);
+	
 	/* EXEC SQL CLOSE cursor_critics; */ 
 
 {
@@ -1497,71 +1699,82 @@ void listarCriticasXogo( int id)
  sqlstm.sqladtp = &sqladt;
  sqlstm.sqltdsp = &sqltds;
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )437;
+ sqlstm.offset = (unsigned int  )497;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
         
-        if(!erro) /* EXEC SQL COMMIT; */ 
+        if(!erro) 
+		/* EXEC SQL COMMIT; */ 
 
 {
-                  struct sqlexd sqlstm;
-                  sqlstm.sqlvsn = 13;
-                  sqlstm.arrsiz = 8;
-                  sqlstm.sqladtp = &sqladt;
-                  sqlstm.sqltdsp = &sqltds;
-                  sqlstm.iters = (unsigned int  )1;
-                  sqlstm.offset = (unsigned int  )452;
-                  sqlstm.cud = sqlcud0;
-                  sqlstm.sqlest = (unsigned char  *)&sqlca;
-                  sqlstm.sqlety = (unsigned short)4352;
-                  sqlstm.occurs = (unsigned int  )0;
-                  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-                  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  struct sqlexd sqlstm;
+  sqlstm.sqlvsn = 13;
+  sqlstm.arrsiz = 8;
+  sqlstm.sqladtp = &sqladt;
+  sqlstm.sqltdsp = &sqltds;
+  sqlstm.iters = (unsigned int  )1;
+  sqlstm.offset = (unsigned int  )512;
+  sqlstm.cud = sqlcud0;
+  sqlstm.sqlest = (unsigned char  *)&sqlca;
+  sqlstm.sqlety = (unsigned short)4352;
+  sqlstm.occurs = (unsigned int  )0;
+  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
         
-        buscarCritica();
+	if (sqlca.sqlerrd[2] > 0){
+		printf("Desexa ver algunha critica en detalle?\n\n");
+		printf("(1)\tSi.\n");
+		printf("(2)\tNon, quero sair.\n");
+		printf("\n\t> ");
+		menu = getInt();
+		if (menu == 1)
+        		buscarCritica();
+		else
+			return;
+	}else
+		printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
 }
 
-void listarCriticasAutor(char *id)
-{
+
+
+/* ______________________________________________________
+ * 
+ * Listar todas as criticas dun autor
+ * ______________________________________________________
+ */
+
+void listarCriticasAutor(){
         int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
 	
-	printf("Función listarCriticasAutor().\n");
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
 
-      	char patron[28];
-        int codCritic;
-        char tituloCritic[51];
-        char xogo[51];
-        int puntuacion;
+      		/* VARCHAR patron[25]; */ 
+struct { unsigned short len; unsigned char arr[25]; } patron;
+
+		char autor[25];
+        	int codCritic;
+        	char tituloCritic[51];
+        	char xogo[51];
+        	int puntuacion;
+		int pausa,menu,it1;
 	/* EXEC SQL END DECLARE SECTION; */ 
 
 
-        //identificador=id;
-
-        //printf("%s\n", id);
-        
-        //strncpy(identificador, id, 26);
-        //int last = strlen(identificador) -1;
-	//if ( (identificador[last]=='\r') || (identificador[last]=='\n') )
-		//identificador[26] = 0;
-        //printf("%s\n", identificador);
-
-	strcpy(patron, "%");
-	strcat(patron, id);
-	strcat(patron, "%");
-
+	printf("\n\n---CRITICAS DE AUTOR---\n\n");
+	printf("Identificador do autor\n\t> "); 
+   	getString(autor,25);
 
 	/* EXEC SQL SET TRANSACTION READ ONLY; */ 
 
@@ -1573,13 +1786,13 @@ void listarCriticasAutor(char *id)
  sqlstm.sqltdsp = &sqltds;
  sqlstm.stmt = "set transaction READ ONLY";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )467;
+ sqlstm.offset = (unsigned int  )527;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 	
@@ -1587,7 +1800,7 @@ void listarCriticasAutor(char *id)
 		/* EXEC SQL DECLARE cursor_criticsA CURSOR FOR
                 SELECT codCritic, tituloCritic, (SELECT tituloXogo FROM xogo WHERE codXogo=c.xogo), puntuacion 
                 FROM critica c 
-		WHERE autor LIKE :patron; */ 
+		WHERE autor = :autor; */ 
 
 
 	/* EXEC SQL OPEN cursor_criticsA; */ 
@@ -1598,9 +1811,9 @@ void listarCriticasAutor(char *id)
  sqlstm.arrsiz = 8;
  sqlstm.sqladtp = &sqladt;
  sqlstm.sqltdsp = &sqltds;
- sqlstm.stmt = sq0022;
+ sqlstm.stmt = sq0026;
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )482;
+ sqlstm.offset = (unsigned int  )542;
  sqlstm.selerr = (unsigned short)1;
  sqlstm.sqlpfmem = (unsigned int  )0;
  sqlstm.cud = sqlcud0;
@@ -1608,8 +1821,8 @@ void listarCriticasAutor(char *id)
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlstm.sqcmod = (unsigned int )0;
- sqlstm.sqhstv[0] = (unsigned char  *)patron;
- sqlstm.sqhstl[0] = (unsigned long )28;
+ sqlstm.sqhstv[0] = (unsigned char  *)autor;
+ sqlstm.sqhstl[0] = (unsigned long )25;
  sqlstm.sqhsts[0] = (         int  )0;
  sqlstm.sqindv[0] = (         short *)0;
  sqlstm.sqinds[0] = (         int  )0;
@@ -1626,15 +1839,18 @@ void listarCriticasAutor(char *id)
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 	
+
 	/* EXEC SQL WHENEVER NOT FOUND DO BREAK; */ 
 
+	
+	it1 = 0;
 	while(1) {
 		/* EXEC SQL FETCH cursor_criticsA
-		INTO :codCritic,:tituloCritic,:xogo,:puntuacion; */ 
+		INTO :codCritic,:tituloCritic,:autor,:puntuacion; */ 
 
 {
   struct sqlexd sqlstm;
@@ -1643,7 +1859,7 @@ void listarCriticasAutor(char *id)
   sqlstm.sqladtp = &sqladt;
   sqlstm.sqltdsp = &sqltds;
   sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )501;
+  sqlstm.offset = (unsigned int  )561;
   sqlstm.selerr = (unsigned short)1;
   sqlstm.sqlpfmem = (unsigned int  )0;
   sqlstm.cud = sqlcud0;
@@ -1668,8 +1884,8 @@ void listarCriticasAutor(char *id)
   sqlstm.sqharm[1] = (unsigned long )0;
   sqlstm.sqadto[1] = (unsigned short )0;
   sqlstm.sqtdso[1] = (unsigned short )0;
-  sqlstm.sqhstv[2] = (unsigned char  *)xogo;
-  sqlstm.sqhstl[2] = (unsigned long )51;
+  sqlstm.sqhstv[2] = (unsigned char  *)autor;
+  sqlstm.sqhstl[2] = (unsigned long )25;
   sqlstm.sqhsts[2] = (         int  )0;
   sqlstm.sqindv[2] = (         short *)0;
   sqlstm.sqinds[2] = (         int  )0;
@@ -1695,21 +1911,27 @@ void listarCriticasAutor(char *id)
   sqlstm.sqptdso = sqlstm.sqtdso;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
   if (sqlca.sqlcode == 1403) break;
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 		if(sqlca.sqlcode == 1403){
 			printf("Non hai criticas para este autor.\n");
 		}else{
-			printf("--Criticas--\n--Codigo--\t--Titulo--\t--Xogo--\t--Puntuacion--\n");
-			printf(" %d\t%s\t%s\t%d\n",codCritic,tituloCritic,xogo,puntuacion);
+			if (it1 == 0){
+				printf("\n\n---LISTADO DE CRITICAS DO AUTOR---\n\n");
+				printf("--Codigo--\t--Titulo--\t--Autor--\t--Puntuacion--\n\n");
+				it1++;
+			}
+			printf(" %d\t%s\t%s\t%d\n\n",codCritic,tituloCritic,autor,puntuacion);
 		}
 	}
         
         /* EXEC SQL WHENEVER NOT FOUND CONTINUE; */ 
 
-	printf("Criticas atopados: %d.\n", sqlca.sqlerrd[2]);
+	
+	printf("\nCriticas atopadas: %d.\n\n", sqlca.sqlerrd[2]);
+	
 	/* EXEC SQL CLOSE cursor_criticsA; */ 
 
 {
@@ -1719,56 +1941,76 @@ void listarCriticasAutor(char *id)
  sqlstm.sqladtp = &sqladt;
  sqlstm.sqltdsp = &sqltds;
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )532;
+ sqlstm.offset = (unsigned int  )592;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
         
-        if(!erro) /* EXEC SQL COMMIT; */ 
+        if(!erro) 
+		/* EXEC SQL COMMIT; */ 
 
 {
-                  struct sqlexd sqlstm;
-                  sqlstm.sqlvsn = 13;
-                  sqlstm.arrsiz = 8;
-                  sqlstm.sqladtp = &sqladt;
-                  sqlstm.sqltdsp = &sqltds;
-                  sqlstm.iters = (unsigned int  )1;
-                  sqlstm.offset = (unsigned int  )547;
-                  sqlstm.cud = sqlcud0;
-                  sqlstm.sqlest = (unsigned char  *)&sqlca;
-                  sqlstm.sqlety = (unsigned short)4352;
-                  sqlstm.occurs = (unsigned int  )0;
-                  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-                  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  struct sqlexd sqlstm;
+  sqlstm.sqlvsn = 13;
+  sqlstm.arrsiz = 8;
+  sqlstm.sqladtp = &sqladt;
+  sqlstm.sqltdsp = &sqltds;
+  sqlstm.iters = (unsigned int  )1;
+  sqlstm.offset = (unsigned int  )607;
+  sqlstm.cud = sqlcud0;
+  sqlstm.sqlest = (unsigned char  *)&sqlca;
+  sqlstm.sqlety = (unsigned short)4352;
+  sqlstm.occurs = (unsigned int  )0;
+  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
         
-        buscarCritica();
+	if (sqlca.sqlerrd[2] > 0){
+		printf("Desexa ver algunha critica en detalle?\n\n");
+		printf("(1)\tSi.\n");
+		printf("(2)\tNon, quero sair.\n");
+		printf("\n\t> ");
+		menu = getInt();
+		if (menu == 1)
+        		buscarCritica();
+		else
+			return;
+	}else
+		printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
 }
 
-void buscarXogoCodigo()
-{
+
+
+/* ______________________________________________________
+ * 
+ * Buscar un xogo polo seu codigo (parte da funcionalidade
+ * de listar todos os xogos).
+ * ______________________________________________________
+ */
+
+
+void buscarXogoCodigo(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
 	
-	printf("Función buscarXogoCodigo().\n");
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
 
-      	int codXogo;
-	char tituloXogo[51];
-	char dataDeSaida[11];
-	short dataDeSaida_ind;
-        int votosPositivos;
-        int votosNegativos;
-        int notaMedia;
+      		int codXogo;
+		char tituloXogo[51];
+		char dataDeSaida[11];
+		short dataDeSaida_ind;
+        	int votosPositivos;
+        	int votosNegativos;
+        	int notaMedia;
 	/* EXEC SQL END DECLARE SECTION; */ 
 
 
@@ -1782,44 +2024,25 @@ void buscarXogoCodigo()
  sqlstm.sqltdsp = &sqltds;
  sqlstm.stmt = "set transaction READ ONLY";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )562;
+ sqlstm.offset = (unsigned int  )622;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 	
 
-	printf("Introduzca o código do xogo[0 para sair]: ");
-   	codXogo=get_int();
+	printf("\n\n---XOGOS---\n\n");
+	printf("Codigo do xogo que quere ver en detalle\n\t> "); 
+   	codXogo=getInt();
 
-	//Control de salida
-	if (codXogo==0){
-		/* EXEC SQL COMMIT; */ 
-
-{
-  struct sqlexd sqlstm;
-  sqlstm.sqlvsn = 13;
-  sqlstm.arrsiz = 8;
-  sqlstm.sqladtp = &sqladt;
-  sqlstm.sqltdsp = &sqltds;
-  sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )577;
-  sqlstm.cud = sqlcud0;
-  sqlstm.sqlest = (unsigned char  *)&sqlca;
-  sqlstm.sqlety = (unsigned short)4352;
-  sqlstm.occurs = (unsigned int  )0;
-  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
-}
-
-
-                return;
-        }
-	/* EXEC SQL SELECT codXogo,tituloXogo,TO_CHAR(dataDeSaida, 'dd/mm/yyyy')   ,votosPositivos,votosNegativos,(SELECT AVG(puntuacion) FROM critica WHERE xogo=x.codXogo) 
+	/* EXEC SQL SELECT codXogo,tituloXogo,TO_CHAR(dataDeSaida, 'dd/mm/yyyy'),
+			votosPositivos,votosNegativos, nvl((SELECT AVG(puntuacion) 
+							    FROM critica 
+							    WHERE xogo=x.codXogo),0) 
 		INTO :codXogo,:tituloXogo,:dataDeSaida:dataDeSaida_ind,:votosPositivos,:votosNegativos,:notaMedia
                 FROM xogo x
 		WHERE codXogo=:codXogo; */ 
@@ -1831,11 +2054,11 @@ void buscarXogoCodigo()
  sqlstm.sqladtp = &sqladt;
  sqlstm.sqltdsp = &sqltds;
  sqlstm.stmt = "select codXogo , tituloXogo , TO_CHAR ( dataDeSaida , 'dd/m\
-m/yyyy' ) , votosPositivos , votosNegativos , ( SELECT AVG ( puntuacion ) FRO\
-M critica WHERE xogo = x . codXogo ) INTO :b0 , :b1 , :b2:b3 , :b4 , :b5 , :b\
-6 FROM xogo x WHERE codXogo = :b0 ";
+m/yyyy' ) , votosPositivos , votosNegativos , nvl ( ( SELECT AVG ( puntuacion\
+ ) FROM critica WHERE xogo = x . codXogo ) , 0 ) INTO :b0 , :b1 , :b2:b3 , :b\
+4 , :b5 , :b6 FROM xogo x WHERE codXogo = :b0 ";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )592;
+ sqlstm.offset = (unsigned int  )637;
  sqlstm.selerr = (unsigned short)1;
  sqlstm.sqlpfmem = (unsigned int  )0;
  sqlstm.cud = sqlcud0;
@@ -1908,61 +2131,69 @@ M critica WHERE xogo = x . codXogo ) INTO :b0 , :b1 , :b2:b3 , :b4 , :b5 , :b\
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 
-	
-
 	if(sqlca.sqlcode == 1403)	
-		printf("No se encontró el código indicado.\n");
-	else
-                printf("--Xogos--\n--Codigo--\t--Titulo--\t--Data de saida--\t--Votos Positivos--\t--Votos Negativos--\t--Nota Media--\n");
+		printf("Non se atopou ningun xogo co codigo indicado.\n");
+	else  {
+		printf("\n\n---XOGO---\n\n");
+                printf("--Codigo--\t--Titulo--\t--Data de saida--\t--Votos Positivos--\t--Votos Negativos--\t--Nota Media--\n");
                 if(dataDeSaida_ind == 0)
                         printf(" %d\t%s\t%s\t%d\t%d\t%d\n",codXogo,tituloXogo,dataDeSaida,votosPositivos,votosNegativos,notaMedia);
                 else
                         printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
-        if(!erro) /* EXEC SQL COMMIT; */ 
+        }
+
+        if(!erro) 
+		/* EXEC SQL COMMIT; */ 
 
 {
-                  struct sqlexd sqlstm;
-                  sqlstm.sqlvsn = 13;
-                  sqlstm.arrsiz = 8;
-                  sqlstm.sqladtp = &sqladt;
-                  sqlstm.sqltdsp = &sqltds;
-                  sqlstm.iters = (unsigned int  )1;
-                  sqlstm.offset = (unsigned int  )635;
-                  sqlstm.cud = sqlcud0;
-                  sqlstm.sqlest = (unsigned char  *)&sqlca;
-                  sqlstm.sqlety = (unsigned short)4352;
-                  sqlstm.occurs = (unsigned int  )0;
-                  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-                  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  struct sqlexd sqlstm;
+  sqlstm.sqlvsn = 13;
+  sqlstm.arrsiz = 8;
+  sqlstm.sqladtp = &sqladt;
+  sqlstm.sqltdsp = &sqltds;
+  sqlstm.iters = (unsigned int  )1;
+  sqlstm.offset = (unsigned int  )680;
+  sqlstm.cud = sqlcud0;
+  sqlstm.sqlest = (unsigned char  *)&sqlca;
+  sqlstm.sqlety = (unsigned short)4352;
+  sqlstm.occurs = (unsigned int  )0;
+  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
         
         listarCriticasXogo(codXogo);
-
 }
 
-void buscarXogoTitulo()
-{
+
+
+/* ______________________________________________________
+ * 
+ * Buscar xogos polo seu nome.
+ * ______________________________________________________
+ */
+
+void buscarXogoTitulo(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
 	
-	printf("Función buscarXogoCodigo().\n");
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
 
-      	int codXogo;
-        char tituloXogo[51], patron[53];
-        char dataDeSaida[11];
-        short dataDeSaida_ind;
-        int votosPositivos;
-        int votosNegativos;
-        int notaMedia;
+      		int codXogo;
+        	char tituloXogo[51], patron[53];
+        	char dataDeSaida[11];
+        	short dataDeSaida_ind;
+        	int votosPositivos;
+        	int votosNegativos;
+        	int notaMedia;
+		int menu,pausa,it1;
 	/* EXEC SQL END DECLARE SECTION; */ 
 
 
@@ -1976,170 +2207,35 @@ void buscarXogoTitulo()
  sqlstm.sqltdsp = &sqltds;
  sqlstm.stmt = "set transaction READ ONLY";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )650;
+ sqlstm.offset = (unsigned int  )695;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 	
 
-	printf("Introduzca o titulo do xogo: ");
-   	get_string(tituloXogo,50);
+	printf("\n\n---BUSCADOR DE XOGOS---\n\n");
+	printf("Titulo do xogo\n\t> "); 
+   	getString(tituloXogo,50);
 
-        strcpy(patron, "%");
+    	strcpy(patron, "%");
 	strcat(patron, tituloXogo);
 	strcat(patron, "%");
 
-	/* EXEC SQL SELECT codXogo,tituloXogo,TO_CHAR(dataDeSaida, 'dd/mm/yyyy'),votosPositivos,votosNegativos,(SELECT AVG(puntuacion) FROM critica WHERE xogo=x.codXogo) 
-		INTO :codXogo,:tituloXogo,:dataDeSaida:dataDeSaida_ind,:votosPositivos,:votosNegativos,:notaMedia
+	/* EXEC SQL DECLARE cursor_xogoT CURSOR FOR 
+		SELECT codXogo,tituloXogo,TO_CHAR(dataDeSaida, 'dd/mm/yyyy'),
+			votosPositivos,votosNegativos,nvl((SELECT AVG(puntuacion) 
+							   FROM critica WHERE xogo=x.codXogo),0) 
+		
                 FROM xogo x 
 		WHERE tituloXogo LIKE :patron; */ 
 
-{
- struct sqlexd sqlstm;
- sqlstm.sqlvsn = 13;
- sqlstm.arrsiz = 8;
- sqlstm.sqladtp = &sqladt;
- sqlstm.sqltdsp = &sqltds;
- sqlstm.stmt = "select codXogo , tituloXogo , TO_CHAR ( dataDeSaida , 'dd/m\
-m/yyyy' ) , votosPositivos , votosNegativos , ( SELECT AVG ( puntuacion ) FRO\
-M critica WHERE xogo = x . codXogo ) INTO :b0 , :b1 , :b2:b3 , :b4 , :b5 , :b\
-6 FROM xogo x WHERE tituloXogo LIKE :b7 ";
- sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )665;
- sqlstm.selerr = (unsigned short)1;
- sqlstm.sqlpfmem = (unsigned int  )0;
- sqlstm.cud = sqlcud0;
- sqlstm.sqlest = (unsigned char  *)&sqlca;
- sqlstm.sqlety = (unsigned short)4352;
- sqlstm.occurs = (unsigned int  )0;
- sqlstm.sqhstv[0] = (unsigned char  *)&codXogo;
- sqlstm.sqhstl[0] = (unsigned long )sizeof(int);
- sqlstm.sqhsts[0] = (         int  )0;
- sqlstm.sqindv[0] = (         short *)0;
- sqlstm.sqinds[0] = (         int  )0;
- sqlstm.sqharm[0] = (unsigned long )0;
- sqlstm.sqadto[0] = (unsigned short )0;
- sqlstm.sqtdso[0] = (unsigned short )0;
- sqlstm.sqhstv[1] = (unsigned char  *)tituloXogo;
- sqlstm.sqhstl[1] = (unsigned long )51;
- sqlstm.sqhsts[1] = (         int  )0;
- sqlstm.sqindv[1] = (         short *)0;
- sqlstm.sqinds[1] = (         int  )0;
- sqlstm.sqharm[1] = (unsigned long )0;
- sqlstm.sqadto[1] = (unsigned short )0;
- sqlstm.sqtdso[1] = (unsigned short )0;
- sqlstm.sqhstv[2] = (unsigned char  *)dataDeSaida;
- sqlstm.sqhstl[2] = (unsigned long )11;
- sqlstm.sqhsts[2] = (         int  )0;
- sqlstm.sqindv[2] = (         short *)&dataDeSaida_ind;
- sqlstm.sqinds[2] = (         int  )0;
- sqlstm.sqharm[2] = (unsigned long )0;
- sqlstm.sqadto[2] = (unsigned short )0;
- sqlstm.sqtdso[2] = (unsigned short )0;
- sqlstm.sqhstv[3] = (unsigned char  *)&votosPositivos;
- sqlstm.sqhstl[3] = (unsigned long )sizeof(int);
- sqlstm.sqhsts[3] = (         int  )0;
- sqlstm.sqindv[3] = (         short *)0;
- sqlstm.sqinds[3] = (         int  )0;
- sqlstm.sqharm[3] = (unsigned long )0;
- sqlstm.sqadto[3] = (unsigned short )0;
- sqlstm.sqtdso[3] = (unsigned short )0;
- sqlstm.sqhstv[4] = (unsigned char  *)&votosNegativos;
- sqlstm.sqhstl[4] = (unsigned long )sizeof(int);
- sqlstm.sqhsts[4] = (         int  )0;
- sqlstm.sqindv[4] = (         short *)0;
- sqlstm.sqinds[4] = (         int  )0;
- sqlstm.sqharm[4] = (unsigned long )0;
- sqlstm.sqadto[4] = (unsigned short )0;
- sqlstm.sqtdso[4] = (unsigned short )0;
- sqlstm.sqhstv[5] = (unsigned char  *)&notaMedia;
- sqlstm.sqhstl[5] = (unsigned long )sizeof(int);
- sqlstm.sqhsts[5] = (         int  )0;
- sqlstm.sqindv[5] = (         short *)0;
- sqlstm.sqinds[5] = (         int  )0;
- sqlstm.sqharm[5] = (unsigned long )0;
- sqlstm.sqadto[5] = (unsigned short )0;
- sqlstm.sqtdso[5] = (unsigned short )0;
- sqlstm.sqhstv[6] = (unsigned char  *)patron;
- sqlstm.sqhstl[6] = (unsigned long )53;
- sqlstm.sqhsts[6] = (         int  )0;
- sqlstm.sqindv[6] = (         short *)0;
- sqlstm.sqinds[6] = (         int  )0;
- sqlstm.sqharm[6] = (unsigned long )0;
- sqlstm.sqadto[6] = (unsigned short )0;
- sqlstm.sqtdso[6] = (unsigned short )0;
- sqlstm.sqphsv = sqlstm.sqhstv;
- sqlstm.sqphsl = sqlstm.sqhstl;
- sqlstm.sqphss = sqlstm.sqhsts;
- sqlstm.sqpind = sqlstm.sqindv;
- sqlstm.sqpins = sqlstm.sqinds;
- sqlstm.sqparm = sqlstm.sqharm;
- sqlstm.sqparc = sqlstm.sqharc;
- sqlstm.sqpadto = sqlstm.sqadto;
- sqlstm.sqptdso = sqlstm.sqtdso;
- sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
-}
 
-
-
-	
-
-	if(sqlca.sqlcode == 1403)	
-		printf("No se encontró el titulo indicado.\n");
-	else
-                printf("--Xogos--\n--Codigo--\t--Titulo--\t--Data de saida--\t--Votos Positivos--\t--Votos Negativos--\t--Nota Media--\n");
-                if(dataDeSaida_ind == 0)
-                        printf(" %d\t%s\t%s\t%d\t%d\t%d\n",codXogo,tituloXogo,dataDeSaida,votosPositivos,votosNegativos,notaMedia);
-                else
-                        printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
-        if(!erro) /* EXEC SQL COMMIT; */ 
-
-{
-                  struct sqlexd sqlstm;
-                  sqlstm.sqlvsn = 13;
-                  sqlstm.arrsiz = 8;
-                  sqlstm.sqladtp = &sqladt;
-                  sqlstm.sqltdsp = &sqltds;
-                  sqlstm.iters = (unsigned int  )1;
-                  sqlstm.offset = (unsigned int  )708;
-                  sqlstm.cud = sqlcud0;
-                  sqlstm.sqlest = (unsigned char  *)&sqlca;
-                  sqlstm.sqlety = (unsigned short)4352;
-                  sqlstm.occurs = (unsigned int  )0;
-                  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-                  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
-}
-
-
-        
-        listarCriticasXogo(codXogo);
-
-}
-
-void buscarAutor()
-{
-	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
-
-	
-	printf("Función buscarAutor().\n");
-   	/* EXEC SQL BEGIN DECLARE SECTION; */ 
-
-      	char idAutor[26];
-        char nome[51], patron[53];
-	char enlace[257];
-	short enlace_ind;
-        char tipo[31];
-	/* EXEC SQL END DECLARE SECTION; */ 
-
-
-	/* EXEC SQL SET TRANSACTION READ ONLY; */ 
+	/* EXEC SQL OPEN cursor_xogoT; */ 
 
 {
  struct sqlexd sqlstm;
@@ -2147,192 +2243,9 @@ void buscarAutor()
  sqlstm.arrsiz = 8;
  sqlstm.sqladtp = &sqladt;
  sqlstm.sqltdsp = &sqltds;
- sqlstm.stmt = "set transaction READ ONLY";
+ sqlstm.stmt = sq0032;
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )723;
- sqlstm.cud = sqlcud0;
- sqlstm.sqlest = (unsigned char  *)&sqlca;
- sqlstm.sqlety = (unsigned short)4352;
- sqlstm.occurs = (unsigned int  )0;
- sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
-}
-
-	
-
-	printf("Introduzca o nome do autor: ");
-   	get_string(nome,50);
-
- 	strcpy(patron, "%");
-	strcat(patron, nome);
-	strcat(patron, "%");
-
-	/* EXEC SQL SELECT idAutor, nome, enlace, tipo
-                INTO :idAutor,:nome,:enlace:enlace_ind,:tipo
-                FROM autor 
-		WHERE nome LIKE :patron; */ 
-
-{
- struct sqlexd sqlstm;
- sqlstm.sqlvsn = 13;
- sqlstm.arrsiz = 8;
- sqlstm.sqladtp = &sqladt;
- sqlstm.sqltdsp = &sqltds;
- sqlstm.stmt = "select idAutor , nome , enlace , tipo INTO :b0 , :b1 , :b2:\
-b3 , :b4 FROM autor WHERE nome LIKE :b5 ";
- sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )738;
- sqlstm.selerr = (unsigned short)1;
- sqlstm.sqlpfmem = (unsigned int  )0;
- sqlstm.cud = sqlcud0;
- sqlstm.sqlest = (unsigned char  *)&sqlca;
- sqlstm.sqlety = (unsigned short)4352;
- sqlstm.occurs = (unsigned int  )0;
- sqlstm.sqhstv[0] = (unsigned char  *)idAutor;
- sqlstm.sqhstl[0] = (unsigned long )26;
- sqlstm.sqhsts[0] = (         int  )0;
- sqlstm.sqindv[0] = (         short *)0;
- sqlstm.sqinds[0] = (         int  )0;
- sqlstm.sqharm[0] = (unsigned long )0;
- sqlstm.sqadto[0] = (unsigned short )0;
- sqlstm.sqtdso[0] = (unsigned short )0;
- sqlstm.sqhstv[1] = (unsigned char  *)nome;
- sqlstm.sqhstl[1] = (unsigned long )51;
- sqlstm.sqhsts[1] = (         int  )0;
- sqlstm.sqindv[1] = (         short *)0;
- sqlstm.sqinds[1] = (         int  )0;
- sqlstm.sqharm[1] = (unsigned long )0;
- sqlstm.sqadto[1] = (unsigned short )0;
- sqlstm.sqtdso[1] = (unsigned short )0;
- sqlstm.sqhstv[2] = (unsigned char  *)enlace;
- sqlstm.sqhstl[2] = (unsigned long )257;
- sqlstm.sqhsts[2] = (         int  )0;
- sqlstm.sqindv[2] = (         short *)&enlace_ind;
- sqlstm.sqinds[2] = (         int  )0;
- sqlstm.sqharm[2] = (unsigned long )0;
- sqlstm.sqadto[2] = (unsigned short )0;
- sqlstm.sqtdso[2] = (unsigned short )0;
- sqlstm.sqhstv[3] = (unsigned char  *)tipo;
- sqlstm.sqhstl[3] = (unsigned long )31;
- sqlstm.sqhsts[3] = (         int  )0;
- sqlstm.sqindv[3] = (         short *)0;
- sqlstm.sqinds[3] = (         int  )0;
- sqlstm.sqharm[3] = (unsigned long )0;
- sqlstm.sqadto[3] = (unsigned short )0;
- sqlstm.sqtdso[3] = (unsigned short )0;
- sqlstm.sqhstv[4] = (unsigned char  *)patron;
- sqlstm.sqhstl[4] = (unsigned long )53;
- sqlstm.sqhsts[4] = (         int  )0;
- sqlstm.sqindv[4] = (         short *)0;
- sqlstm.sqinds[4] = (         int  )0;
- sqlstm.sqharm[4] = (unsigned long )0;
- sqlstm.sqadto[4] = (unsigned short )0;
- sqlstm.sqtdso[4] = (unsigned short )0;
- sqlstm.sqphsv = sqlstm.sqhstv;
- sqlstm.sqphsl = sqlstm.sqhstl;
- sqlstm.sqphss = sqlstm.sqhsts;
- sqlstm.sqpind = sqlstm.sqindv;
- sqlstm.sqpins = sqlstm.sqinds;
- sqlstm.sqparm = sqlstm.sqharm;
- sqlstm.sqparc = sqlstm.sqharc;
- sqlstm.sqpadto = sqlstm.sqadto;
- sqlstm.sqptdso = sqlstm.sqtdso;
- sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
-}
-
-
-
-	
-
-	if(sqlca.sqlcode == 1403)	
-		printf("No se encontró el autor indicado.\n");
-	else
-                printf("--Autor--\n--Codigo--\t--Nome--\t--Enlace--\t--Tipo--\n");
-                if(enlace_ind == 0)
-                        printf(" %s\t%s\t%s\t%s\n",idAutor,nome,enlace,tipo);
-                else
-                        printf(" %s\t%s\tSen enlace\t%s\n",idAutor,nome,tipo);	
-        if(!erro) /* EXEC SQL COMMIT; */ 
-
-{
-                  struct sqlexd sqlstm;
-                  sqlstm.sqlvsn = 13;
-                  sqlstm.arrsiz = 8;
-                  sqlstm.sqladtp = &sqladt;
-                  sqlstm.sqltdsp = &sqltds;
-                  sqlstm.iters = (unsigned int  )1;
-                  sqlstm.offset = (unsigned int  )773;
-                  sqlstm.cud = sqlcud0;
-                  sqlstm.sqlest = (unsigned char  *)&sqlca;
-                  sqlstm.sqlety = (unsigned short)4352;
-                  sqlstm.occurs = (unsigned int  )0;
-                  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-                  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
-}
-
-
-        
-        listarCriticasAutor(idAutor);
-}
-
-
-void listarXogos()
-{
-	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
-
-	
-	printf("Función listarXogos().\n");
-   	/* EXEC SQL BEGIN DECLARE SECTION; */ 
-
-      	int codXogo;
-	char tituloXogo[51];
-	char dataDeSaida[11];
-	short dataDeSaida_ind;
-        int votosPositivos;
-        int votosNegativos;
-        int notaMedia;
-	/* EXEC SQL END DECLARE SECTION; */ 
-
-
-	/* EXEC SQL SET TRANSACTION READ ONLY; */ 
-
-{
- struct sqlexd sqlstm;
- sqlstm.sqlvsn = 13;
- sqlstm.arrsiz = 8;
- sqlstm.sqladtp = &sqladt;
- sqlstm.sqltdsp = &sqltds;
- sqlstm.stmt = "set transaction READ ONLY";
- sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )788;
- sqlstm.cud = sqlcud0;
- sqlstm.sqlest = (unsigned char  *)&sqlca;
- sqlstm.sqlety = (unsigned short)4352;
- sqlstm.occurs = (unsigned int  )0;
- sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
-}
-
-	
-
-	/* EXEC SQL DECLARE cursor_elementos CURSOR FOR
-		SELECT codXogo,tituloXogo, TO_CHAR(dataDeSaida, 'dd/mm/yyyy'),votosPositivos,votosNegativos,(SELECT AVG(puntuacion) FROM critica WHERE xogo=x.codXogo) 
-		FROM xogo x; */ 
-
-	
-	/* EXEC SQL OPEN cursor_elementos; */ 
-
-{
- struct sqlexd sqlstm;
- sqlstm.sqlvsn = 13;
- sqlstm.arrsiz = 8;
- sqlstm.sqladtp = &sqladt;
- sqlstm.sqltdsp = &sqltds;
- sqlstm.stmt = sq0035;
- sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )803;
+ sqlstm.offset = (unsigned int  )710;
  sqlstm.selerr = (unsigned short)1;
  sqlstm.sqlpfmem = (unsigned int  )0;
  sqlstm.cud = sqlcud0;
@@ -2340,16 +2253,35 @@ void listarXogos()
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlstm.sqcmod = (unsigned int )0;
+ sqlstm.sqhstv[0] = (unsigned char  *)patron;
+ sqlstm.sqhstl[0] = (unsigned long )53;
+ sqlstm.sqhsts[0] = (         int  )0;
+ sqlstm.sqindv[0] = (         short *)0;
+ sqlstm.sqinds[0] = (         int  )0;
+ sqlstm.sqharm[0] = (unsigned long )0;
+ sqlstm.sqadto[0] = (unsigned short )0;
+ sqlstm.sqtdso[0] = (unsigned short )0;
+ sqlstm.sqphsv = sqlstm.sqhstv;
+ sqlstm.sqphsl = sqlstm.sqhstl;
+ sqlstm.sqphss = sqlstm.sqhsts;
+ sqlstm.sqpind = sqlstm.sqindv;
+ sqlstm.sqpins = sqlstm.sqinds;
+ sqlstm.sqparm = sqlstm.sqharm;
+ sqlstm.sqparc = sqlstm.sqharc;
+ sqlstm.sqpadto = sqlstm.sqadto;
+ sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
+	
 	
 	/* EXEC SQL WHENEVER NOT FOUND DO BREAK; */ 
 
 
-	while(1) {
-		/* EXEC SQL FETCH cursor_elementos
+	it1 = 0;
+	while(1){
+		/* EXEC SQL FETCH cursor_xogoT
 		INTO :codXogo,:tituloXogo,:dataDeSaida:dataDeSaida_ind,:votosPositivos,:votosNegativos,:notaMedia; */ 
 
 {
@@ -2359,7 +2291,7 @@ void listarXogos()
   sqlstm.sqladtp = &sqladt;
   sqlstm.sqltdsp = &sqltds;
   sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )818;
+  sqlstm.offset = (unsigned int  )729;
   sqlstm.selerr = (unsigned short)1;
   sqlstm.sqlpfmem = (unsigned int  )0;
   sqlstm.cud = sqlcud0;
@@ -2427,23 +2359,518 @@ void listarXogos()
   sqlstm.sqptdso = sqlstm.sqtdso;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
   if (sqlca.sqlcode == 1403) break;
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+		
+		if(sqlca.sqlcode == 1403)	
+			printf("No se encontro el titulo indicado.\n");
+		else {
+			if (it1 == 0){
+				printf("\n\n---XOGOS---\n\n");
+				printf("--Codigo--\t--Titulo--\t--Data de saida--");
+				printf("\t--Votos Positivos--\t--Votos Negativos--\t--Nota Media--\n");	
+				it1++;
+			}
+	                if(dataDeSaida_ind == 0)
+	                        printf(" %d\t%s\t%s\t%d\t%d\t%d\n",codXogo,tituloXogo,dataDeSaida,votosPositivos,votosNegativos,notaMedia);
+	                else
+	                        printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
+	        }
+        }
+
+        /* EXEC SQL WHENEVER NOT FOUND CONTINUE; */ 
+
+
+	/* EXEC SQL CLOSE cursor_xogoT; */ 
+
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 8;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )768;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+
+        if(!erro) 
+		/* EXEC SQL COMMIT; */ 
+
+{
+  struct sqlexd sqlstm;
+  sqlstm.sqlvsn = 13;
+  sqlstm.arrsiz = 8;
+  sqlstm.sqladtp = &sqladt;
+  sqlstm.sqltdsp = &sqltds;
+  sqlstm.iters = (unsigned int  )1;
+  sqlstm.offset = (unsigned int  )783;
+  sqlstm.cud = sqlcud0;
+  sqlstm.sqlest = (unsigned char  *)&sqlca;
+  sqlstm.sqlety = (unsigned short)4352;
+  sqlstm.occurs = (unsigned int  )0;
+  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+        
+        if (sqlca.sqlerrd[2] > 0){
+		printf("Desexa ver algun xogo en detalle?\n\n");
+		printf("(1)\tSi.\n");
+		printf("(2)\tNon, quero sair.\n");
+		printf("\n\t> ");
+		menu = getInt();
+		if (menu == 1)
+        		buscarXogoCodigo();
+		else
+			return;
+	}else
+		printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
+}
+
+
+
+/* ______________________________________________________
+ * 
+ * Buscar autores polo seu nome.
+ * ______________________________________________________
+ */
+
+void buscarAutor(){
+	int erro = 0;		
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+
+	
+   	/* EXEC SQL BEGIN DECLARE SECTION; */ 
+
+      		/* VARCHAR idAutor[25]; */ 
+struct { unsigned short len; unsigned char arr[25]; } idAutor;
+
+        	char nome[51], patron[53];
+		char enlace[257];
+		short enlace_ind;
+        	char tipo[31];
+		int it1,menu,pausa;
+	/* EXEC SQL END DECLARE SECTION; */ 
+
+
+	/* EXEC SQL SET TRANSACTION READ ONLY; */ 
+
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 8;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.stmt = "set transaction READ ONLY";
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )798;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+	
+
+	printf("\n\n---BUSCADOR DE AUTORES---\n\n");
+	printf("Nome do autor\n\t> "); 
+   	getString(nome,50);
+
+ 	strcpy(patron, "%");
+	strcat(patron, nome);
+	strcat(patron, "%");
+
+	/* EXEC SQL DECLARE cursor_autor CURSOR FOR
+		SELECT idAutor, nome, enlace, tipo
+                FROM autor 
+		WHERE nome LIKE :patron; */ 
+
+
+	/* EXEC SQL OPEN cursor_autor; */ 
+
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 8;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.stmt = sq0035;
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )813;
+ sqlstm.selerr = (unsigned short)1;
+ sqlstm.sqlpfmem = (unsigned int  )0;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlstm.sqcmod = (unsigned int )0;
+ sqlstm.sqhstv[0] = (unsigned char  *)patron;
+ sqlstm.sqhstl[0] = (unsigned long )53;
+ sqlstm.sqhsts[0] = (         int  )0;
+ sqlstm.sqindv[0] = (         short *)0;
+ sqlstm.sqinds[0] = (         int  )0;
+ sqlstm.sqharm[0] = (unsigned long )0;
+ sqlstm.sqadto[0] = (unsigned short )0;
+ sqlstm.sqtdso[0] = (unsigned short )0;
+ sqlstm.sqphsv = sqlstm.sqhstv;
+ sqlstm.sqphsl = sqlstm.sqhstl;
+ sqlstm.sqphss = sqlstm.sqhsts;
+ sqlstm.sqpind = sqlstm.sqindv;
+ sqlstm.sqpins = sqlstm.sqinds;
+ sqlstm.sqparm = sqlstm.sqharm;
+ sqlstm.sqparc = sqlstm.sqharc;
+ sqlstm.sqpadto = sqlstm.sqadto;
+ sqlstm.sqptdso = sqlstm.sqtdso;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+	
+	/* EXEC SQL WHENEVER NOT FOUND DO BREAK; */ 
+
+
+	it1=0;
+	while(1){
+		/* EXEC SQL FETCH cursor_autor
+		INTO :idAutor,:nome,:enlace:enlace_ind,:tipo; */ 
+
+{
+  struct sqlexd sqlstm;
+  sqlstm.sqlvsn = 13;
+  sqlstm.arrsiz = 8;
+  sqlstm.sqladtp = &sqladt;
+  sqlstm.sqltdsp = &sqltds;
+  sqlstm.iters = (unsigned int  )1;
+  sqlstm.offset = (unsigned int  )832;
+  sqlstm.selerr = (unsigned short)1;
+  sqlstm.sqlpfmem = (unsigned int  )0;
+  sqlstm.cud = sqlcud0;
+  sqlstm.sqlest = (unsigned char  *)&sqlca;
+  sqlstm.sqlety = (unsigned short)4352;
+  sqlstm.occurs = (unsigned int  )0;
+  sqlstm.sqfoff = (         int )0;
+  sqlstm.sqfmod = (unsigned int )2;
+  sqlstm.sqhstv[0] = (unsigned char  *)&idAutor;
+  sqlstm.sqhstl[0] = (unsigned long )27;
+  sqlstm.sqhsts[0] = (         int  )0;
+  sqlstm.sqindv[0] = (         short *)0;
+  sqlstm.sqinds[0] = (         int  )0;
+  sqlstm.sqharm[0] = (unsigned long )0;
+  sqlstm.sqadto[0] = (unsigned short )0;
+  sqlstm.sqtdso[0] = (unsigned short )0;
+  sqlstm.sqhstv[1] = (unsigned char  *)nome;
+  sqlstm.sqhstl[1] = (unsigned long )51;
+  sqlstm.sqhsts[1] = (         int  )0;
+  sqlstm.sqindv[1] = (         short *)0;
+  sqlstm.sqinds[1] = (         int  )0;
+  sqlstm.sqharm[1] = (unsigned long )0;
+  sqlstm.sqadto[1] = (unsigned short )0;
+  sqlstm.sqtdso[1] = (unsigned short )0;
+  sqlstm.sqhstv[2] = (unsigned char  *)enlace;
+  sqlstm.sqhstl[2] = (unsigned long )257;
+  sqlstm.sqhsts[2] = (         int  )0;
+  sqlstm.sqindv[2] = (         short *)&enlace_ind;
+  sqlstm.sqinds[2] = (         int  )0;
+  sqlstm.sqharm[2] = (unsigned long )0;
+  sqlstm.sqadto[2] = (unsigned short )0;
+  sqlstm.sqtdso[2] = (unsigned short )0;
+  sqlstm.sqhstv[3] = (unsigned char  *)tipo;
+  sqlstm.sqhstl[3] = (unsigned long )31;
+  sqlstm.sqhsts[3] = (         int  )0;
+  sqlstm.sqindv[3] = (         short *)0;
+  sqlstm.sqinds[3] = (         int  )0;
+  sqlstm.sqharm[3] = (unsigned long )0;
+  sqlstm.sqadto[3] = (unsigned short )0;
+  sqlstm.sqtdso[3] = (unsigned short )0;
+  sqlstm.sqphsv = sqlstm.sqhstv;
+  sqlstm.sqphsl = sqlstm.sqhstl;
+  sqlstm.sqphss = sqlstm.sqhsts;
+  sqlstm.sqpind = sqlstm.sqindv;
+  sqlstm.sqpins = sqlstm.sqinds;
+  sqlstm.sqparm = sqlstm.sqharm;
+  sqlstm.sqparc = sqlstm.sqharc;
+  sqlstm.sqpadto = sqlstm.sqadto;
+  sqlstm.sqptdso = sqlstm.sqtdso;
+  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+  if (sqlca.sqlcode == 1403) break;
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+		if(sqlca.sqlcode == 1403)	
+			printf("Non se atopou ningun autor con ese nome.\n");
+		else {
+			if(it1 == 0){
+				printf("\n\n---LISTADO DE AUTORES---\n\n");
+				printf("--Codigo--\t--Nome--\t--Enlace--\t--Tipo--\n");
+				it1++;
+			}
+                	if(enlace_ind == 0)
+                	        printf(" %.*s\t%s\t%s\t%s\n",idAutor.len,idAutor.arr,nome,enlace,tipo);
+                	else
+                	        printf(" %.*s\t%s\tSen enlace\t%s\n",idAutor.len,idAutor.arr,nome,tipo);
+		}	
+    	}
+	
+	/* EXEC SQL WHENEVER NOT FOUND CONTINUE; */ 
+
+
+	/* EXEC SQL CLOSE cursor_autor; */ 
+
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 8;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )863;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+
+        if(!erro) 
+		/* EXEC SQL COMMIT; */ 
+
+{
+  struct sqlexd sqlstm;
+  sqlstm.sqlvsn = 13;
+  sqlstm.arrsiz = 8;
+  sqlstm.sqladtp = &sqladt;
+  sqlstm.sqltdsp = &sqltds;
+  sqlstm.iters = (unsigned int  )1;
+  sqlstm.offset = (unsigned int  )878;
+  sqlstm.cud = sqlcud0;
+  sqlstm.sqlest = (unsigned char  *)&sqlca;
+  sqlstm.sqlety = (unsigned short)4352;
+  sqlstm.occurs = (unsigned int  )0;
+  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+        
+	if (sqlca.sqlerrd[2] > 0){
+		printf("Desexa ver as criticas dalgun autor?\n\n");
+		printf("(1)\tSi.\n");
+		printf("(2)\tNon, quero sair.\n");
+		printf("\n\t> ");
+		menu = getInt();
+		if (menu == 1)
+        		listarCriticasAutor();
+		else
+			return;
+	}else
+		printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
+}
+
+
+
+/* ______________________________________________________
+ * 
+ * Listar todos os xogos da base de datos.
+ * ______________________________________________________
+ */
+
+void listarXogos(){
+	int erro = 0;		
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+
+
+   	/* EXEC SQL BEGIN DECLARE SECTION; */ 
+
+      		int codXogo;
+		char tituloXogo[51];
+		char dataDeSaida[11];
+		short dataDeSaida_ind;
+        	int votosPositivos;
+        	int votosNegativos;
+        	int notaMedia;
+		int it1,menu,pausa;
+	/* EXEC SQL END DECLARE SECTION; */ 
+
+
+	/* EXEC SQL SET TRANSACTION READ ONLY; */ 
+
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 8;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.stmt = "set transaction READ ONLY";
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )893;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+	
+
+	/* EXEC SQL DECLARE cursor_elementos CURSOR FOR
+		SELECT codXogo,tituloXogo, TO_CHAR(dataDeSaida, 'dd/mm/yyyy'),
+			votosPositivos,votosNegativos,nvl((SELECT AVG(puntuacion) 
+							   FROM critica 
+							   WHERE xogo=x.codXogo),0) 
+		FROM xogo x; */ 
+
+	
+	/* EXEC SQL OPEN cursor_elementos; */ 
+
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 8;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.stmt = sq0038;
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )908;
+ sqlstm.selerr = (unsigned short)1;
+ sqlstm.sqlpfmem = (unsigned int  )0;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlstm.sqcmod = (unsigned int )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+	
+
+	/* EXEC SQL WHENEVER NOT FOUND DO BREAK; */ 
+	
+	
+	it1=0;
+	while(1) {
+		/* EXEC SQL FETCH cursor_elementos
+		INTO :codXogo,:tituloXogo,:dataDeSaida:dataDeSaida_ind,:votosPositivos,:votosNegativos,:notaMedia; */ 
+
+{
+  struct sqlexd sqlstm;
+  sqlstm.sqlvsn = 13;
+  sqlstm.arrsiz = 8;
+  sqlstm.sqladtp = &sqladt;
+  sqlstm.sqltdsp = &sqltds;
+  sqlstm.iters = (unsigned int  )1;
+  sqlstm.offset = (unsigned int  )923;
+  sqlstm.selerr = (unsigned short)1;
+  sqlstm.sqlpfmem = (unsigned int  )0;
+  sqlstm.cud = sqlcud0;
+  sqlstm.sqlest = (unsigned char  *)&sqlca;
+  sqlstm.sqlety = (unsigned short)4352;
+  sqlstm.occurs = (unsigned int  )0;
+  sqlstm.sqfoff = (         int )0;
+  sqlstm.sqfmod = (unsigned int )2;
+  sqlstm.sqhstv[0] = (unsigned char  *)&codXogo;
+  sqlstm.sqhstl[0] = (unsigned long )sizeof(int);
+  sqlstm.sqhsts[0] = (         int  )0;
+  sqlstm.sqindv[0] = (         short *)0;
+  sqlstm.sqinds[0] = (         int  )0;
+  sqlstm.sqharm[0] = (unsigned long )0;
+  sqlstm.sqadto[0] = (unsigned short )0;
+  sqlstm.sqtdso[0] = (unsigned short )0;
+  sqlstm.sqhstv[1] = (unsigned char  *)tituloXogo;
+  sqlstm.sqhstl[1] = (unsigned long )51;
+  sqlstm.sqhsts[1] = (         int  )0;
+  sqlstm.sqindv[1] = (         short *)0;
+  sqlstm.sqinds[1] = (         int  )0;
+  sqlstm.sqharm[1] = (unsigned long )0;
+  sqlstm.sqadto[1] = (unsigned short )0;
+  sqlstm.sqtdso[1] = (unsigned short )0;
+  sqlstm.sqhstv[2] = (unsigned char  *)dataDeSaida;
+  sqlstm.sqhstl[2] = (unsigned long )11;
+  sqlstm.sqhsts[2] = (         int  )0;
+  sqlstm.sqindv[2] = (         short *)&dataDeSaida_ind;
+  sqlstm.sqinds[2] = (         int  )0;
+  sqlstm.sqharm[2] = (unsigned long )0;
+  sqlstm.sqadto[2] = (unsigned short )0;
+  sqlstm.sqtdso[2] = (unsigned short )0;
+  sqlstm.sqhstv[3] = (unsigned char  *)&votosPositivos;
+  sqlstm.sqhstl[3] = (unsigned long )sizeof(int);
+  sqlstm.sqhsts[3] = (         int  )0;
+  sqlstm.sqindv[3] = (         short *)0;
+  sqlstm.sqinds[3] = (         int  )0;
+  sqlstm.sqharm[3] = (unsigned long )0;
+  sqlstm.sqadto[3] = (unsigned short )0;
+  sqlstm.sqtdso[3] = (unsigned short )0;
+  sqlstm.sqhstv[4] = (unsigned char  *)&votosNegativos;
+  sqlstm.sqhstl[4] = (unsigned long )sizeof(int);
+  sqlstm.sqhsts[4] = (         int  )0;
+  sqlstm.sqindv[4] = (         short *)0;
+  sqlstm.sqinds[4] = (         int  )0;
+  sqlstm.sqharm[4] = (unsigned long )0;
+  sqlstm.sqadto[4] = (unsigned short )0;
+  sqlstm.sqtdso[4] = (unsigned short )0;
+  sqlstm.sqhstv[5] = (unsigned char  *)&notaMedia;
+  sqlstm.sqhstl[5] = (unsigned long )sizeof(int);
+  sqlstm.sqhsts[5] = (         int  )0;
+  sqlstm.sqindv[5] = (         short *)0;
+  sqlstm.sqinds[5] = (         int  )0;
+  sqlstm.sqharm[5] = (unsigned long )0;
+  sqlstm.sqadto[5] = (unsigned short )0;
+  sqlstm.sqtdso[5] = (unsigned short )0;
+  sqlstm.sqphsv = sqlstm.sqhstv;
+  sqlstm.sqphsl = sqlstm.sqhstl;
+  sqlstm.sqphss = sqlstm.sqhsts;
+  sqlstm.sqpind = sqlstm.sqindv;
+  sqlstm.sqpins = sqlstm.sqinds;
+  sqlstm.sqparm = sqlstm.sqharm;
+  sqlstm.sqparc = sqlstm.sqharc;
+  sqlstm.sqpadto = sqlstm.sqadto;
+  sqlstm.sqptdso = sqlstm.sqtdso;
+  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+  if (sqlca.sqlcode == 1403) break;
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 		if(sqlca.sqlcode == 1403)	
 			printf("Non hai xogos.\n");
-		else
-                        printf("--Xogos--\n--Codigo--\t--Titulo--\t--Data de saida--\t--Votos Positivos--\t--Votos Negativos--\t--Nota Media--\n");
+		else{
+            		if (it1 == 0){
+				printf("\n\n---LISTADO DE XOGOS---\n\n");
+				printf("--Codigo--\t--Titulo--\t--Data de saida--");
+				printf("\t--Votos Positivos--\t--Votos Negativos--\t--Nota Media--\n");
+				it1++;
+			}
 			if(dataDeSaida_ind == 0)
 				printf(" %d\t%s\t%s\t%d\t%d\t%d\n",codXogo,tituloXogo,dataDeSaida,votosPositivos,votosNegativos,notaMedia);
 			else
 				printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);
+		}
 	}
          
 	/* EXEC SQL WHENEVER NOT FOUND CONTINUE; */ 
 
-	printf("Xogos atopados: %d.\n", sqlca.sqlerrd[2]);
+
+	printf("\nXogos atopados: %d.\n\n", sqlca.sqlerrd[2]);
+
 	/* EXEC SQL CLOSE cursor_elementos; */ 
 
 {
@@ -2453,13 +2880,13 @@ void listarXogos()
  sqlstm.sqladtp = &sqladt;
  sqlstm.sqltdsp = &sqltds;
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )857;
+ sqlstm.offset = (unsigned int  )962;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
@@ -2473,22 +2900,42 @@ void listarXogos()
            sqlstm.sqladtp = &sqladt;
            sqlstm.sqltdsp = &sqltds;
            sqlstm.iters = (unsigned int  )1;
-           sqlstm.offset = (unsigned int  )872;
+           sqlstm.offset = (unsigned int  )977;
            sqlstm.cud = sqlcud0;
            sqlstm.sqlest = (unsigned char  *)&sqlca;
            sqlstm.sqlety = (unsigned short)4352;
            sqlstm.occurs = (unsigned int  )0;
            sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-           if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+           if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 	
-	buscarXogoCodigo();
+	if (sqlca.sqlerrd[2] > 0){
+		printf("Desexa ver algun xogo en detalle?\n\n");
+		printf("(1)\tSi.\n");
+		printf("(2)\tNon, quero sair.\n");
+		printf("\n\t> ");
+		menu = getInt();
+		if (menu == 1)
+        		buscarXogoCodigo();
+		else
+			return;
+	}else
+		printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
 }
 
 
-void mostrar_votos(int codXogo){
+
+/* ______________________________________________________
+ * 
+ * Mostrar os votos dun xogo (parte da funcionalidade de
+ * votar positiva ou negativamente).
+ * ______________________________________________________
+ */
+
+
+void mostrarVotos(int codXogo){
 	int erro = 0;
 	/* EXEC SQL WHENEVER SQLERROR CONTINUE; */ 
 
@@ -2510,7 +2957,7 @@ void mostrar_votos(int codXogo){
  sqlstm.sqltdsp = &sqltds;
  sqlstm.stmt = "set transaction READ ONLY";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )887;
+ sqlstm.offset = (unsigned int  )992;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
@@ -2536,7 +2983,7 @@ void mostrar_votos(int codXogo){
  sqlstm.stmt = "select tituloXogo , votosPositivos , votosNegativos INTO :b\
 0 , :b1 , :b2 FROM xogo WHERE codXogo = :b3 ";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )902;
+ sqlstm.offset = (unsigned int  )1007;
  sqlstm.selerr = (unsigned short)1;
  sqlstm.sqlpfmem = (unsigned int  )0;
  sqlstm.cud = sqlcud0;
@@ -2603,7 +3050,7 @@ void mostrar_votos(int codXogo){
   sqlstm.sqladtp = &sqladt;
   sqlstm.sqltdsp = &sqltds;
   sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )933;
+  sqlstm.offset = (unsigned int  )1038;
   sqlstm.cud = sqlcud0;
   sqlstm.sqlest = (unsigned char  *)&sqlca;
   sqlstm.sqlety = (unsigned short)4352;
@@ -2616,10 +3063,16 @@ void mostrar_votos(int codXogo){
 }
 
 
-void editar_autor()
-{
+
+/* ______________________________________________________
+ * 
+ * Editar os datos dun autor.
+ * ______________________________________________________
+ */
+
+void editarAutor(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -2631,16 +3084,35 @@ void editar_autor()
 	/* EXEC SQL END DECLARE SECTION; */ 
 
 	
-	//EXEC SQL SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+	/* EXEC SQL SET TRANSACTION ISOLATION LEVEL SERIALIZABLE; */ 
 
-	printf("EDITAR DATOS DE AUTOR\n\n");
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 8;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.stmt = "set transaction ISOLATION LEVEL SERIALIZABLE";
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )1053;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+
+	printf("\n\n---EDITAR DATOS DE AUTOR---\n\n");
 	printf("Identificador do autor a modificar> "); 
-	get_string(idAutor,25);
+	getString(idAutor,25);
 	printf("\nInserte os novos datos:\n\n");
 	printf("(*) Nome\n\t> ");
-	get_string(nome,50);
+	getString(nome,50);
 	printf("Enlace a sua paxina web\n\t> ");
-	get_string(enlace,256);
+	getString(enlace,256);
 
 	/* EXEC SQL UPDATE autor
 		SET nome = :nome, enlace =:enlace
@@ -2655,7 +3127,7 @@ void editar_autor()
  sqlstm.stmt = "update autor SET nome = :b0 , enlace = :b1 WHERE idAutor = \
 :b2 ";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )948;
+ sqlstm.offset = (unsigned int  )1068;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
@@ -2694,7 +3166,7 @@ void editar_autor()
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
@@ -2709,25 +3181,32 @@ void editar_autor()
   sqlstm.sqladtp = &sqladt;
   sqlstm.sqltdsp = &sqltds;
   sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )975;
+  sqlstm.offset = (unsigned int  )1095;
   sqlstm.cud = sqlcud0;
   sqlstm.sqlest = (unsigned char  *)&sqlca;
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
 		printf("\n\nDatos editados con exito!\n\n\n");	
 	}
-	pausa = get_int();
+	printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
 }
 
-void votar_positivamente()
-{
+
+
+/* ______________________________________________________
+ * 
+ * Votar positivamente por un xogo.
+ * ______________________________________________________
+ */
+
+void votarPositivamente(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -2736,11 +3215,30 @@ void votar_positivamente()
 	/* EXEC SQL END DECLARE SECTION; */ 
 
 	
-	//EXEC SQL SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+	/* EXEC SQL SET TRANSACTION ISOLATION LEVEL SERIALIZABLE; */ 
 
-	printf("VOTAR POSITIVAMENTE\n\n");
-	printf("Código do xogo> "); 
-	codXogo = get_int();
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 8;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.stmt = "set transaction ISOLATION LEVEL SERIALIZABLE";
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )1110;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+
+	printf("\n\n---VOTAR POSITIVAMENTE---\n\n");
+	printf("Codigo do xogo> "); 
+	codXogo = getInt();
 
 	/* EXEC SQL UPDATE xogo
 		SET votosPositivos = votosPositivos + 1
@@ -2755,7 +3253,7 @@ void votar_positivamente()
  sqlstm.stmt = "update xogo SET votosPositivos = votosPositivos + 1 WHERE c\
 odXogo = :b0 ";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )990;
+ sqlstm.offset = (unsigned int  )1125;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
@@ -2778,7 +3276,7 @@ odXogo = :b0 ";
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
@@ -2793,27 +3291,33 @@ odXogo = :b0 ";
   sqlstm.sqladtp = &sqladt;
   sqlstm.sqltdsp = &sqltds;
   sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )1009;
+  sqlstm.offset = (unsigned int  )1144;
   sqlstm.cud = sqlcud0;
   sqlstm.sqlest = (unsigned char  *)&sqlca;
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
-		mostrar_votos(codXogo);
+		mostrarVotos(codXogo);
 		printf("\n\nGracias por votar!\n\n\n");	
 	}
-	pausa = get_int();
+	printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
 }
 
 
-void votar_negativamente()
-{
+
+/* ______________________________________________________
+ * 
+ * Votar positivamente por un xogo.
+ * ______________________________________________________
+ */
+
+void votarNegativamente(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -2822,11 +3326,30 @@ void votar_negativamente()
 	/* EXEC SQL END DECLARE SECTION; */ 
 
 	
-	//EXEC SQL SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+	/* EXEC SQL SET TRANSACTION ISOLATION LEVEL SERIALIZABLE; */ 
 
-	printf("VOTAR NEGATIVAMENTE\n\n");
-	printf("Código do xogo> "); 
-	codXogo = get_int();
+{
+ struct sqlexd sqlstm;
+ sqlstm.sqlvsn = 13;
+ sqlstm.arrsiz = 8;
+ sqlstm.sqladtp = &sqladt;
+ sqlstm.sqltdsp = &sqltds;
+ sqlstm.stmt = "set transaction ISOLATION LEVEL SERIALIZABLE";
+ sqlstm.iters = (unsigned int  )1;
+ sqlstm.offset = (unsigned int  )1159;
+ sqlstm.cud = sqlcud0;
+ sqlstm.sqlest = (unsigned char  *)&sqlca;
+ sqlstm.sqlety = (unsigned short)4352;
+ sqlstm.occurs = (unsigned int  )0;
+ sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+}
+
+
+
+	printf("\n\n---VOTAR NEGATIVAMENTE---\n\n");
+	printf("Codigo do xogo> "); 
+	codXogo = getInt();
 
 	/* EXEC SQL UPDATE xogo
 		SET votosNegativos = votosNegativos + 1
@@ -2841,7 +3364,7 @@ void votar_negativamente()
  sqlstm.stmt = "update xogo SET votosNegativos = votosNegativos + 1 WHERE c\
 odXogo = :b0 ";
  sqlstm.iters = (unsigned int  )1;
- sqlstm.offset = (unsigned int  )1024;
+ sqlstm.offset = (unsigned int  )1174;
  sqlstm.cud = sqlcud0;
  sqlstm.sqlest = (unsigned char  *)&sqlca;
  sqlstm.sqlety = (unsigned short)4352;
@@ -2864,7 +3387,7 @@ odXogo = :b0 ";
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+ if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
@@ -2879,51 +3402,50 @@ odXogo = :b0 ";
   sqlstm.sqladtp = &sqladt;
   sqlstm.sqltdsp = &sqltds;
   sqlstm.iters = (unsigned int  )1;
-  sqlstm.offset = (unsigned int  )1043;
+  sqlstm.offset = (unsigned int  )1193;
   sqlstm.cud = sqlcud0;
   sqlstm.sqlest = (unsigned char  *)&sqlca;
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManager_DML());
+  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
 }
 
 
-		mostrar_votos(codXogo);
+		mostrarVotos(codXogo);
 		printf("\n\nGracias por votar!\n\n\n");	
 	}
 
-	pausa = get_int();
+	printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
 }
 
 
-/* Función principal */
-int main()
-{
-  conecta_bd();
+/* Funcion principal */
+int main() {
+  conectaBD();
 
   int op;
 
   while ( (op=menu()) != 0){
-       switch(op){
-            case 1: listarXogos(); break;
-            case 2: buscarXogoTitulo(); break;
-            case 3: buscarAutor(); break;
-	    case 4: engadir_critica(); break;
-	    case 5: engadir_autor(); break;
-	    case 6: engadir_xogo(); break;
-	    case 7: eliminar_xogo(); break;
-	    case 8: eliminar_autor(); break;
-	    case 9: editar_autor(); break;
-	    case 10: votar_positivamente(); break;
-	    case 11: votar_negativamente(); break;
+	switch(op){
+		case 1: listarXogos(); break;
+		case 2: engadirXogo(); break;
+		case 3: buscarXogoTitulo(); break;
+		case 4: eliminarXogo(); break;
+		case 5: engadirAutor(1); break;
+		case 6: buscarAutor(); break;
+		case 7: editarAutor(); break;
+		case 8: eliminarAutor(); break;
+		case 9: engadirCritica(); break;
+		case 10: votarPositivamente(); break;
+		case 11: votarNegativamente(); break;  
        }
 
   }
  
 
 
- desconecta_bd(); 
+ desconectaBD(); 
 
  return 0;
 }
