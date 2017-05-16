@@ -96,9 +96,9 @@ int errorManager_DML(){
 	int retval = sqlca.sqlcode; 
 	EXEC SQL WHENEVER SQLERROR CONTINUE;
 	switch (sqlca.sqlcode){
-		case -1: printf("Non podo insertar o artigo, o código xa existe.\n\n");
-
-		default: printf("\nEstado: Código %d, Mensaxe: %.*s.\n",
+		case -1: printf("Erro: O DNI/CIF xa existe na base de datos.\n\n");
+		case -1400: printf("Erro: Os campos marcados con * son de caracter obligatorio.\n\n")
+		default: printf("\nErro: Estado: Código %d, Mensaxe: %.*s.\n\n",
 		sqlca.sqlcode,
 		sqlca.sqlerrm.sqlerrml,
 		sqlca.sqlerrm.sqlerrmc);
@@ -140,7 +140,7 @@ void desconecta_bd(){
 
 
 
-void engadir_autor(){
+void engadir_autor(int doCommit){
 	int erro = 0;		
 	EXEC SQL WHENEVER SQLERROR DO erro=errorManager_DML();
    	
@@ -182,7 +182,9 @@ void engadir_autor(){
    	VALUES (:id, :nome, :enlace, :tipo);
    
 	if(erro==0){
-		EXEC SQL COMMIT;
+		if(doCommit==1)
+			EXEC SQL COMMIT;
+		
 		printf("\n\nAutor insertado con exito\n\n\n");
 	}
 	pausa = get_int();
@@ -214,7 +216,7 @@ void engadir_critica(){
 	autor = get_int();
 
 	if (autor == 1){
-		engadir_autor();
+		engadir_autor(0);
 		printf("CRITICAS\n\n");
 	}	
 	printf("Identificador do autor\n\t> ");
@@ -568,22 +570,29 @@ void buscarXogoTitulo() // Devuelve más de una
 	strcat(patron, tituloXogo);
 	strcat(patron, "%");
 
-	EXEC SQL SELECT codXogo,tituloXogo,TO_CHAR(dataDeSaida, 'dd/mm/yyyy'),votosPositivos,votosNegativos,nvl((SELECT AVG(puntuacion) FROM critica WHERE xogo=x.codXogo),0) 
-		INTO :codXogo,:tituloXogo,:dataDeSaida:dataDeSaida_ind,:votosPositivos,:votosNegativos,:notaMedia
+	EXEC SQL DECLARE cursor_xogoT CURSOR FOR 
+	SELECT codXogo,tituloXogo,TO_CHAR(dataDeSaida, 'dd/mm/yyyy'),votosPositivos,votosNegativos,nvl((SELECT AVG(puntuacion) FROM critica WHERE xogo=x.codXogo),0) 
+		
                 FROM xogo x 
 		WHERE tituloXogo LIKE :patron;
 
-	
-
+	EXEC SQL OPEN cursor_xogoT;	
+	EXEC SQL WHENEVER NOT FOUND DO BREAK;
+                printf("--Xogos--\n--Codigo--\t--Titulo--\t--Data de saida--\t--Votos Positivos--\t--Votos Negativos--\t--Nota Media--\n");
+	while(1){
+		EXEC SQL FETCH cursor_xogoT
+		INTO :codXogo,:tituloXogo,:dataDeSaida:dataDeSaida_ind,:votosPositivos,:votosNegativos,:notaMedia;
 	if(sqlca.sqlcode == 1403)	
 		printf("No se encontró el titulo indicado.\n");
 	else {
-                printf("--Xogo--\n--Codigo--\t--Titulo--\t--Data de saida--\t--Votos Positivos--\t--Votos Negativos--\t--Nota Media--\n");
                 if(dataDeSaida_ind == 0)
                         printf(" %d\t%s\t%s\t%d\t%d\t%d\n",codXogo,tituloXogo,dataDeSaida,votosPositivos,votosNegativos,notaMedia);
                 else
                         printf(" %d\t%s\tSen data\t%d\t%d\t%d\n",codXogo,tituloXogo,votosPositivos,votosNegativos,notaMedia);	
         }
+        }
+        EXEC SQL WHENEVER NOT FOUND CONTINUE;
+       EXEC SQL CLOSE cursor_xogoT;
         if(!erro) EXEC SQL COMMIT;
         
         listarCriticasXogo(codXogo);
@@ -613,21 +622,30 @@ void buscarAutor() //Devuelve más de una
 	strcat(patron, nome);
 	strcat(patron, "%");
 
-	EXEC SQL SELECT idAutor, nome, enlace, tipo
-                INTO :idAutor,:nome,:enlace:enlace_ind,:tipo
+	EXEC SQL DECLARE cursor_autor CURSOR FOR
+		SELECT idAutor, nome, enlace, tipo
                 FROM autor 
 		WHERE nome LIKE :patron;
 
-	
+	EXEC SQL OPEN cursor_autor;	
+	EXEC SQL WHENEVER NOT FOUND DO BREAK;
 
+	              printf("--Autores--\n--Codigo--\t--Nome--\t--Enlace--\t--Tipo--\n");
+	while(1){
+		EXEC SQL FETCH cursor_autor
+		INTO :idAutor,:nome,:enlace:enlace_ind,:tipo;
 	if(sqlca.sqlcode == 1403)	
 		printf("No se encontró el autor indicado.\n");
-	else
-                printf("--Autor--\n--Codigo--\t--Nome--\t--Enlace--\t--Tipo--\n");
+	else {
+  
                 if(enlace_ind == 0)
                         printf(" %.*s\t%s\t%s\t%s\n",idAutor.len,idAutor.arr,nome,enlace,tipo);
                 else
-                        printf(" %.*s\t%s\tSen enlace\t%s\n",idAutor.len,idAutor.arr,nome,tipo);	
+                        printf(" %.*s\t%s\tSen enlace\t%s\n",idAutor.len,idAutor.arr,nome,tipo);
+					}	
+    }
+     EXEC SQL WHENEVER NOT FOUND CONTINUE;
+       EXEC SQL CLOSE cursor_autor;
         if(!erro) EXEC SQL COMMIT;
         
         listarCriticasAutor(idAutor.arr, idAutor.len);
@@ -817,7 +835,7 @@ int main()
             case 2: buscarXogoTitulo(); break;
             case 3: buscarAutor(); break;
 	    case 4: engadir_critica(); break;
-	    case 5: engadir_autor(); break;
+	    case 5: engadir_autor(1); break;
 	    case 6: engadir_xogo(); break;
 	    case 7: eliminar_xogo(); break;
 	    case 8: eliminar_autor(); break;
