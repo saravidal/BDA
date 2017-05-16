@@ -98,8 +98,8 @@ int errorManagerDML(){
 	int retval = sqlca.sqlcode; 
 	EXEC SQL WHENEVER SQLERROR CONTINUE;
 	switch (sqlca.sqlcode){
-		case -1: printf("Erro: O DNI/CIF xa existe na base de datos.\n\n");
-		case -1400: printf("Erro: Os campos marcados con * son de caracter obligatorio.\n\n")
+		case -1: printf("Erro: O DNI/CIF xa existe na base de datos.\n\n"); break;
+		case -1400: printf("Erro: Os campos marcados con * son de caracter obligatorio.\n\n"); break;
 		default: printf("\nErro: Estado: Código %d, Mensaxe: %.*s.\n\n",
 		sqlca.sqlcode,
 		sqlca.sqlerrm.sqlerrml,
@@ -154,7 +154,8 @@ void engadirAutor(int doCommit){
 		char tipo[30];
 		int pausa;
    	EXEC SQL END DECLARE SECTION;
-	EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITED;	
+	if(doCommit==1)
+		EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITTED;	
 
 	printf("REXISTRO DE AUTORES\n\n");
 	printf("Que clase de rexistro desexa facer:\n");
@@ -210,7 +211,7 @@ void engadirCritica(){
 		char idAutor[25];
 		int pausa;
    	EXEC SQL END DECLARE SECTION;
-	EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITED;
+	EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 
 	printf("CRITICAS\n\n");
 	printf("Autor xa rexistrado ou novo autor?:\n");
@@ -261,7 +262,7 @@ void engadirXogo(){
 		char dataDeSaida[11];
 		int votosPositivos,votosNegativos,pausa;
    	EXEC SQL END DECLARE SECTION;
-	EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITED;
+	EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 	
 	printf("REXISTRO DE XOGOS\n\n");
 	printf("(*) Titulo\n\t> ");
@@ -301,7 +302,7 @@ void eliminarAutor()
       		char id[25];
 		int pausa;
 	EXEC SQL END DECLARE SECTION;
-	EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITED;
+	EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 	
 	printf("ELIMINACION DE AUTORES\n\n");
 	printf("Identificador do autor\n\t> "); 
@@ -330,7 +331,7 @@ void eliminarXogo()
    	EXEC SQL BEGIN DECLARE SECTION;
       		int cod,pausa;
 	EXEC SQL END DECLARE SECTION;
-	EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITED;
+	EXEC SQL SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 
 	printf("ELIMINACION DE XOGOS\n\n");
 	printf("Codigo do xogo\n\t> "); 
