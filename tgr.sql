@@ -60,7 +60,8 @@ CONSTRAINT crit_pk PRIMARY KEY (codCritic),
 CONSTRAINT crit_xogo_fk FOREIGN KEY (xogo) 
 REFERENCES xogo(codXogo) ON DELETE CASCADE,
 CONSTRAINT crit_autor_fk FOREIGN KEY (autor) 
-REFERENCES autor(idAutor) ON DELETE CASCADE
+REFERENCES autor(idAutor) ON DELETE CASCADE,
+CONSTRAINT puntuacion_ck CHECK (puntuacion BETWEEN 1 AND 100)
 );
 
 CREATE SEQUENCE Seq_Critic
