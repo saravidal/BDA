@@ -158,83 +158,83 @@ typedef struct { unsigned short len; unsigned char arr[1]; } varchar;
 /* CUD (Compilation Unit Data) Array */
 static short sqlcud0[] =
 {13,4130,873,0,0,
-5,0,0,1,0,0,31,151,0,0,0,0,0,1,0,
-20,0,0,0,0,0,27,177,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,10,0,0,1,10,0,0,
-51,0,0,3,0,0,30,185,0,0,0,0,0,1,0,
-66,0,0,4,46,0,1,214,0,0,0,0,0,1,0,
-81,0,0,5,86,0,3,241,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,97,0,0,1,97,0,0,
-112,0,0,6,0,0,29,246,0,0,0,0,0,1,0,
-127,0,0,7,46,0,1,278,0,0,0,0,0,1,0,
-142,0,0,8,130,0,3,306,0,0,6,6,0,1,0,1,97,0,0,1,97,0,0,1,3,0,0,1,97,0,0,1,3,0,0,
+5,0,0,1,0,0,31,155,0,0,0,0,0,1,0,
+20,0,0,0,0,0,27,181,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,10,0,0,1,10,0,0,
+51,0,0,3,0,0,30,189,0,0,0,0,0,1,0,
+66,0,0,4,46,0,1,218,0,0,0,0,0,1,0,
+81,0,0,5,86,0,3,245,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,97,0,0,1,97,0,0,
+112,0,0,6,0,0,29,250,0,0,0,0,0,1,0,
+127,0,0,7,46,0,1,286,0,0,0,0,0,1,0,
+142,0,0,8,130,0,3,314,0,0,6,6,0,1,0,1,97,0,0,1,97,0,0,1,3,0,0,1,97,0,0,1,3,0,0,
 1,97,0,0,
-181,0,0,9,0,0,29,310,0,0,0,0,0,1,0,
-196,0,0,10,46,0,1,337,0,0,0,0,0,1,0,
-211,0,0,11,113,0,3,356,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,3,0,0,1,3,0,0,
-242,0,0,12,0,0,29,360,0,0,0,0,0,1,0,
-257,0,0,13,46,0,1,383,0,0,0,0,0,1,0,
-272,0,0,14,38,0,2,389,0,0,1,1,0,1,0,1,97,0,0,
-291,0,0,15,0,0,29,398,0,0,0,0,0,1,0,
-306,0,0,16,46,0,1,418,0,0,0,0,0,1,0,
-321,0,0,17,37,0,2,424,0,0,1,1,0,1,0,1,3,0,0,
-340,0,0,18,0,0,29,433,0,0,0,0,0,1,0,
-355,0,0,19,25,0,1,467,0,0,0,0,0,1,0,
-370,0,0,20,291,0,4,469,0,0,8,1,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,97,0,0,2,3,0,
+181,0,0,9,0,0,29,318,0,0,0,0,0,1,0,
+196,0,0,10,46,0,1,351,0,0,0,0,0,1,0,
+211,0,0,11,113,0,3,370,0,0,4,4,0,1,0,1,97,0,0,1,97,0,0,1,3,0,0,1,3,0,0,
+242,0,0,12,0,0,29,374,0,0,0,0,0,1,0,
+257,0,0,13,46,0,1,397,0,0,0,0,0,1,0,
+272,0,0,14,38,0,2,403,0,0,1,1,0,1,0,1,97,0,0,
+291,0,0,15,0,0,29,412,0,0,0,0,0,1,0,
+306,0,0,16,46,0,1,432,0,0,0,0,0,1,0,
+321,0,0,17,37,0,2,438,0,0,1,1,0,1,0,1,3,0,0,
+340,0,0,18,0,0,29,447,0,0,0,0,0,1,0,
+355,0,0,19,25,0,1,481,0,0,0,0,0,1,0,
+370,0,0,20,291,0,4,483,0,0,8,1,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,97,0,0,2,3,0,
 0,2,97,0,0,2,97,0,0,1,3,0,0,
-417,0,0,21,0,0,29,491,0,0,0,0,0,1,0,
-432,0,0,22,25,0,1,520,0,0,0,0,0,1,0,
-447,0,0,23,143,0,9,527,0,0,1,1,0,1,0,1,3,0,0,
-466,0,0,23,0,0,13,533,0,0,4,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,
-497,0,0,23,0,0,15,551,0,0,0,0,0,1,0,
-512,0,0,24,0,0,29,554,0,0,0,0,0,1,0,
-527,0,0,25,25,0,1,596,0,0,0,0,0,1,0,
-542,0,0,26,148,0,9,603,0,0,1,1,0,1,0,1,97,0,0,
-561,0,0,26,0,0,13,609,0,0,4,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,
-592,0,0,26,0,0,15,627,0,0,0,0,0,1,0,
-607,0,0,27,0,0,29,630,0,0,0,0,0,1,0,
-622,0,0,28,25,0,1,670,0,0,0,0,0,1,0,
-637,0,0,29,259,0,4,676,0,0,7,1,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
+417,0,0,21,0,0,29,505,0,0,0,0,0,1,0,
+432,0,0,22,25,0,1,534,0,0,0,0,0,1,0,
+447,0,0,23,143,0,9,541,0,0,1,1,0,1,0,1,3,0,0,
+466,0,0,23,0,0,13,547,0,0,4,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,
+497,0,0,23,0,0,15,565,0,0,0,0,0,1,0,
+512,0,0,24,0,0,29,568,0,0,0,0,0,1,0,
+527,0,0,25,25,0,1,612,0,0,0,0,0,1,0,
+542,0,0,26,148,0,9,619,0,0,1,1,0,1,0,1,97,0,0,
+561,0,0,26,0,0,13,625,0,0,4,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,
+592,0,0,26,0,0,15,643,0,0,0,0,0,1,0,
+607,0,0,27,0,0,29,646,0,0,0,0,0,1,0,
+622,0,0,28,25,0,1,688,0,0,0,0,0,1,0,
+637,0,0,29,259,0,4,694,0,0,7,1,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
 2,3,0,0,1,3,0,0,
-680,0,0,30,0,0,29,696,0,0,0,0,0,1,0,
-695,0,0,31,25,0,1,724,0,0,0,0,0,1,0,
-710,0,0,32,234,0,9,742,0,0,1,1,0,1,0,1,97,0,0,
-729,0,0,32,0,0,13,748,0,0,6,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
+680,0,0,30,0,0,29,714,0,0,0,0,0,1,0,
+695,0,0,31,25,0,1,742,0,0,0,0,0,1,0,
+710,0,0,32,234,0,9,760,0,0,1,1,0,1,0,1,97,0,0,
+729,0,0,32,0,0,13,766,0,0,6,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
 2,3,0,0,
-768,0,0,32,0,0,15,769,0,0,0,0,0,1,0,
-783,0,0,33,0,0,29,772,0,0,0,0,0,1,0,
-798,0,0,34,25,0,1,809,0,0,0,0,0,1,0,
-813,0,0,35,80,0,9,824,0,0,1,1,0,1,0,1,97,0,0,
-832,0,0,35,0,0,13,830,0,0,4,0,0,1,0,2,9,0,0,2,97,0,0,2,97,0,0,2,97,0,0,
-863,0,0,35,0,0,15,849,0,0,0,0,0,1,0,
-878,0,0,36,0,0,29,852,0,0,0,0,0,1,0,
-893,0,0,37,25,0,1,891,0,0,0,0,0,1,0,
-908,0,0,38,208,0,9,900,0,0,0,0,0,1,0,
-923,0,0,38,0,0,13,906,0,0,6,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
+768,0,0,32,0,0,15,787,0,0,0,0,0,1,0,
+783,0,0,33,0,0,29,790,0,0,0,0,0,1,0,
+798,0,0,34,25,0,1,829,0,0,0,0,0,1,0,
+813,0,0,35,80,0,9,844,0,0,1,1,0,1,0,1,97,0,0,
+832,0,0,35,0,0,13,850,0,0,4,0,0,1,0,2,9,0,0,2,97,0,0,2,97,0,0,2,97,0,0,
+863,0,0,35,0,0,15,869,0,0,0,0,0,1,0,
+878,0,0,36,0,0,29,872,0,0,0,0,0,1,0,
+893,0,0,37,25,0,1,913,0,0,0,0,0,1,0,
+908,0,0,38,208,0,9,922,0,0,0,0,0,1,0,
+923,0,0,38,0,0,13,928,0,0,6,0,0,1,0,2,3,0,0,2,97,0,0,2,97,0,0,2,3,0,0,2,3,0,0,
 2,3,0,0,
-962,0,0,38,0,0,15,928,0,0,0,0,0,1,0,
-977,0,0,39,0,0,29,930,0,0,0,0,0,1,0,
-992,0,0,40,25,0,1,965,0,0,0,0,0,1,0,
-1007,0,0,41,103,0,4,969,0,0,4,1,0,1,0,2,97,0,0,2,3,0,0,2,3,0,0,1,3,0,0,
-1038,0,0,42,0,0,29,979,0,0,0,0,0,1,0,
-1053,0,0,43,44,0,1,1002,0,0,0,0,0,1,0,
-1068,0,0,44,63,0,5,1013,0,0,3,3,0,1,0,1,97,0,0,1,97,0,0,1,97,0,0,
-1095,0,0,45,0,0,29,1018,0,0,0,0,0,1,0,
-1110,0,0,46,44,0,1,1043,0,0,0,0,0,1,0,
-1125,0,0,47,72,0,5,1049,0,0,1,1,0,1,0,1,3,0,0,
-1144,0,0,48,0,0,29,1054,0,0,0,0,0,1,0,
-1159,0,0,49,44,0,1,1080,0,0,0,0,0,1,0,
-1174,0,0,50,72,0,5,1086,0,0,1,1,0,1,0,1,3,0,0,
-1193,0,0,51,0,0,29,1091,0,0,0,0,0,1,0,
+962,0,0,38,0,0,15,950,0,0,0,0,0,1,0,
+977,0,0,39,0,0,29,952,0,0,0,0,0,1,0,
+992,0,0,40,25,0,1,989,0,0,0,0,0,1,0,
+1007,0,0,41,103,0,4,993,0,0,4,1,0,1,0,2,97,0,0,2,3,0,0,2,3,0,0,1,3,0,0,
+1038,0,0,42,0,0,29,1003,0,0,0,0,0,1,0,
+1053,0,0,43,44,0,1,1026,0,0,0,0,0,1,0,
+1068,0,0,44,63,0,5,1037,0,0,3,3,0,1,0,1,97,0,0,1,97,0,0,1,97,0,0,
+1095,0,0,45,0,0,29,1042,0,0,0,0,0,1,0,
+1110,0,0,46,44,0,1,1067,0,0,0,0,0,1,0,
+1125,0,0,47,72,0,5,1073,0,0,1,1,0,1,0,1,3,0,0,
+1144,0,0,48,0,0,29,1078,0,0,0,0,0,1,0,
+1159,0,0,49,44,0,1,1104,0,0,0,0,0,1,0,
+1174,0,0,50,72,0,5,1110,0,0,1,1,0,1,0,1,3,0,0,
+1193,0,0,51,0,0,29,1115,0,0,0,0,0,1,0,
 };
 
 
 /*
  *
  *	 BASES DE DATOS AVANZADAS - TRABALLO TUTELADO
- *	APLICACION PARA XESTIONAR UNHA BD DE VIDEOXOGOS
+ *	APLICACIÓN PARA XESTIONAR UNHA BD DE VIDEOXOGOS
  *	
  * 	Autores:
- * 		Daniel Lopez Lopez (d.lopez.lopez@udc.es)
- * 		Sara Vidal Garcia (sara.vidal@udc.es) 
+ * 		Daniel López López (d.lopez.lopez@udc.es)
+ * 		Sara Vidal García (sara.vidal@udc.es) 
  *	
  *	Grupo 1.1 - Curso 2016-17 
  *
@@ -351,7 +351,7 @@ SQLCA_STORAGE_CLASS struct sqlca sqlca
 
 /* ______________________________________________________
  * 
- * Utilidades para menus e ler valores por teclado.  
+ * Utilidades para menús e ler valores por teclado.  
  * ______________________________________________________
  */
 
@@ -389,14 +389,14 @@ float getFloat(){
 
 /* ______________________________________________________
  * 
- * Menu principal. 
+ * Menú principal. 
  * ______________________________________________________
  */
 
 int menu(){
 	int opcion = -1;
 
-	int MAXOPTS = 12; /* Numero de opcions do menu */
+	int MAXOPTS = 12; /* Número de opcións do menú */
 
 	printf(" _____________________________ \n");
 	printf("|                             |\n");
@@ -430,12 +430,12 @@ int menu(){
 
 /* ______________________________________________________
  * 
- * Funcions para a xestion de erros. 
+ * Funcións para a xestión de erros. 
  * ______________________________________________________
  */
 
 
-void erroManagerConexion(char *usr){
+void errorManagerConn(char *usr){
 	/* EXEC SQL WHENEVER SQLERROR CONTINUE; */ 
 
 	switch (sqlca.sqlcode){
@@ -452,30 +452,34 @@ void erroManagerConexion(char *usr){
 }
 
 
-int errorManagerDML(){
+int errorManager(){
 	int retval = sqlca.sqlcode; 
 	/* EXEC SQL WHENEVER SQLERROR CONTINUE; */ 
 
 	switch (sqlca.sqlcode){
-		case -1: printf("Erro: O DNI/CIF xa existe na base de datos.\n\n"); 
+		case -1: printf("\nERRO: O DNI/CIF xa existe na base de datos.\n\n"); 
 				break;
-		case -1400: printf("Erro: Os campos marcados con * son de caracter obligatorio.\n\n"); 
+		case -2290: printf("\nERRO: A puntuacion ten que ser un valor entre 0 e 100!\n\n");
 				break;
-		case -1480: printf("Erro: Sobrepasouse o numero maximo de caracteres permitidos.\n\n");
+		case -2291: printf("\nERRO: O codigo do xogo ou o identificador do autor e incorrecto.\n\n");
 				break;
-		case -1438: printf("Erro: Superouse o valor maximo permitido para a puntuacion da critica.\n\n");
+		case -1400: printf("\nERRO: Os campos marcados con * son de caracter obligatorio.\n\n"); 
 				break;
-		case -1830: printf("Erro: A data introducida non cumple co formato solicitado.\n\n");
+		case -1407: printf("\nERRO: Os campos marcados con * son de caracter obligatorio.\n\n");
 				break;
-		case -1847: printf("Erro: O dia do mes debe estar entre 1 e o ultimo dia dese mes.\n\n");
+		case -1438: printf("\nERRO: Superouse o valor maximo permitido para a puntuacion da critica.\n\n");
 				break;
-		case -1843: printf("Erro: O mes introducido non e valido.\n\n");
+		case -1480: printf("\nERRO: Sobrepasouse o numero maximo de caracteres permitidos.\n\n");
 				break;
-		case -1407: printf("Erro: Os campos marcados con * son de caracter obligatorio.\n\n");
+		case -1830: printf("\nERRO: A data introducida non cumple co formato solicitado.\n\n");
 				break;
-		case -2291: printf("Erro: O codigo do xogo ou o identificador do autor e incorrecto.\n\n");
+		case -1843: printf("\nERRO: O mes introducido non e valido.\n\n");
 				break;
-		default: printf("\nErro: Estado: Codigo %d, Mensaxe: %.*s.\n\n",
+		case -1847: printf("\nERRO: O dia do mes debe estar entre 1 e o ultimo dia dese mes.\n\n");
+				break;
+		case -1861: printf("\ERRO: O dia non cumple co formato solicitado.\n\n");
+				break;
+		default: printf("\nERRO: Estado: Codigo %d, Mensaxe: %.*s.\n\n",
 				sqlca.sqlcode,
 				sqlca.sqlerrm.sqlerrml,
 				sqlca.sqlerrm.sqlerrmc);
@@ -505,13 +509,13 @@ int errorManagerDML(){
 
 /* ______________________________________________________
  * 
- * Conexion e desconexion a base de datos. 
+ * Conexión e desconexión á base de datos. 
  * ______________________________________________________
  */
 
 
 void conectaBD(){
-   	/* EXEC SQL WHENEVER SQLERROR DO erroManagerConexion(usuario); */ 
+   	/* EXEC SQL WHENEVER SQLERROR DO errorManagerConn(usuario); */ 
 
 
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -571,7 +575,7 @@ void conectaBD(){
     sqlstm.sqlctimeout = (unsigned int )0;
     sqlstm.sqlcnowait = (unsigned int )0;
     sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-    if (sqlca.sqlcode < 0) erroManagerConexion(usuario);
+    if (sqlca.sqlcode < 0) errorManagerConn(usuario);
 }
 
 
@@ -581,7 +585,7 @@ void conectaBD(){
 
 
 void desconectaBD(){
-   /* EXEC SQL WHENEVER SQLERROR DO erroManagerConexion(""); */ 
+   /* EXEC SQL WHENEVER SQLERROR DO errorManagerConn(""); */ 
 
    /* EXEC SQL COMMIT RELEASE; */ 
 
@@ -598,7 +602,7 @@ void desconectaBD(){
    sqlstm.sqlety = (unsigned short)4352;
    sqlstm.occurs = (unsigned int  )0;
    sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-   if (sqlca.sqlcode < 0) erroManagerConexion("");
+   if (sqlca.sqlcode < 0) errorManagerConn("");
 }
 
 
@@ -608,17 +612,17 @@ void desconectaBD(){
 
 /* ______________________________________________________
  * 
- * Engadir un autor a base de datos.
+ * Engadir un autor á base de datos.
  *
  * Nota: Se doCommit == 0, esta funcionalidade vai incluida
- * dentro da funcionalidade de engadir unha critica.
+ * dentro da funcionalidade de engadir unha crítica.
  * ______________________________________________________
  */
 
 
 void engadirAutor(int doCommit){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
    	
 	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -649,7 +653,7 @@ void engadirAutor(int doCommit){
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 	
@@ -738,13 +742,13 @@ UES ( :b0 , :b1 , :b2 , :b3 ) ";
     sqlstm.sqpadto = sqlstm.sqadto;
     sqlstm.sqptdso = sqlstm.sqtdso;
     sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-    if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+    if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
    
 	if(erro==0){
-		if(doCommit==1)
+		if(doCommit==1){
 			/* EXEC SQL COMMIT; */ 
 
 {
@@ -760,28 +764,32 @@ UES ( :b0 , :b1 , :b2 , :b3 ) ";
    sqlstm.sqlety = (unsigned short)4352;
    sqlstm.occurs = (unsigned int  )0;
    sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-   if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+   if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
-		
-		printf("\n\nAutor insertado con exito\n\n\n");
+			printf("\n\nAutor insertado con exito\n\n\n");
+		}else
+			printf("\nTras este tramite, abrindo formulario de critica...\n");	
 	}
-
-	printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
+	
+	if(doCommit==1) {
+		printf("[Pulse Enter para voltar ao menu principal]"); 
+		pausa = getInt();
+	}
 }
 
 
 
 /* ______________________________________________________
  * 
- * Engadir unha critica a base de datos. 
+ * Engadir unha crítica á base de datos. 
  * ______________________________________________________
  */
 
 void engadirCritica(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
    	
 	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -814,13 +822,13 @@ void engadirCritica(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
 
 	printf("\n\n---CRITICAS---\n\n");
-	printf("Queres rexistrarte primeiro?:\n");
+	printf("Para poder realizar unha critica debes rexistrarte.\n");
    	printf("(1)\tRexistrarse\n");
 	printf("(2)\tXa estou rexistrado\n");
 	printf("\n\t> ");
@@ -831,7 +839,7 @@ void engadirCritica(){
 		engadirAutor(0);
 		printf("\n\n---CRITICAS---\n\n");
 	}	
-	printf("Identificador do autor\n\t> ");
+	printf("(*) Identificador do autor\n\t> ");
 	getString(idAutor,25);
 	printf("(*) Codigo do xogo\n\t> ");
 	xogo = getInt();
@@ -920,7 +928,7 @@ void engadirCritica(){
     sqlstm.sqpadto = sqlstm.sqadto;
     sqlstm.sqptdso = sqlstm.sqtdso;
     sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-    if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+    if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -941,27 +949,33 @@ void engadirCritica(){
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
 		printf("\n\nCritica insertada con exito\n\n\n");
-	}
-
-	printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
+	} else
+		if(autor == 1){
+			printf("\n[--ATENCION--\n");
+			printf("O rexistro como autor que se realizou nesta opcion do menu (9. Engadir critica) ");
+			printf("non se vai a conservar, dado que a critica non se puido completar con exito.\n\n");
+			printf("Se desea asegurar a creacion do rexistro como autor, utilice a opcion 5 do menu.]\n\n");
+		}
+	printf("[Pulse Enter para voltar ao menu principal]");
+	pausa = getInt();
 }
 
 
 
 /* ______________________________________________________
  * 
- * Engadir un xogo a base de datos.
+ * Engadir un xogo á base de datos.
  * ______________________________________________________
  */
 
 void engadirXogo(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
    	
 	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -990,7 +1004,7 @@ void engadirXogo(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1071,7 +1085,7 @@ ivos , votosNegativos ) VALUES ( :b0 , :b1 , :b2 , :b3 ) ";
     sqlstm.sqpadto = sqlstm.sqadto;
     sqlstm.sqptdso = sqlstm.sqtdso;
     sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-    if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+    if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1092,7 +1106,7 @@ ivos , votosNegativos ) VALUES ( :b0 , :b1 , :b2 , :b3 ) ";
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1112,7 +1126,7 @@ ivos , votosNegativos ) VALUES ( :b0 , :b1 , :b2 , :b3 ) ";
 
 void eliminarAutor(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -1137,7 +1151,7 @@ void eliminarAutor(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1180,7 +1194,7 @@ void eliminarAutor(){
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1206,7 +1220,7 @@ void eliminarAutor(){
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1224,7 +1238,7 @@ void eliminarAutor(){
 
 void eliminarXogo(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -1248,7 +1262,7 @@ void eliminarXogo(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1291,7 +1305,7 @@ void eliminarXogo(){
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1317,7 +1331,7 @@ void eliminarXogo(){
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1329,14 +1343,14 @@ void eliminarXogo(){
 
 /* ______________________________________________________
  * 
- * Buscar unha critica (parte da funcionalidad de buscar
+ * Buscar unha crítica (parte da funcionalidade de buscar
  * xogos por nome)
  * ______________________________________________________
  */
 
 void buscarCritica() {
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -1373,7 +1387,7 @@ void buscarCritica() {
         sqlstm.sqlety = (unsigned short)4352;
         sqlstm.occurs = (unsigned int  )0;
         sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-        if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+        if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1482,7 +1496,7 @@ c = :b0 ";
         sqlstm.sqpadto = sqlstm.sqadto;
         sqlstm.sqptdso = sqlstm.sqtdso;
         sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-        if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+        if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1513,7 +1527,7 @@ c = :b0 ";
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1525,14 +1539,14 @@ c = :b0 ";
 
 /* ______________________________________________________
  * 
- * Listar as criticas dun xogo (parte da funcionalidade de
- * buscar xogos por codigo)
+ * Listar as críticas dun xogo (parte da funcionalidade de
+ * buscar xogos por código)
  * ______________________________________________________
  */
 
 void listarCriticasXogo( int id) {
         int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -1564,7 +1578,7 @@ void listarCriticasXogo( int id) {
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 	
@@ -1611,7 +1625,7 @@ void listarCriticasXogo( int id) {
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1683,7 +1697,7 @@ void listarCriticasXogo( int id) {
   sqlstm.sqptdso = sqlstm.sqtdso;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
   if (sqlca.sqlcode == 1403) break;
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1719,7 +1733,7 @@ void listarCriticasXogo( int id) {
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1740,7 +1754,7 @@ void listarCriticasXogo( int id) {
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1755,21 +1769,23 @@ void listarCriticasXogo( int id) {
         		buscarCritica();
 		else
 			return;
-	}else
-		printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
+	}else{
+		printf("[Pulse Enter para voltar ao menu principal]"); 
+		pausa = getInt();
+	}
 }
 
 
 
 /* ______________________________________________________
  * 
- * Listar todas as criticas dun autor
+ * Listar todas as críticas dun autor.
  * ______________________________________________________
  */
 
 void listarCriticasAutor(){
         int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -1806,7 +1822,7 @@ struct { unsigned short len; unsigned char arr[25]; } patron;
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 	
@@ -1853,7 +1869,7 @@ struct { unsigned short len; unsigned char arr[25]; } patron;
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 	
@@ -1925,7 +1941,7 @@ struct { unsigned short len; unsigned char arr[25]; } patron;
   sqlstm.sqptdso = sqlstm.sqtdso;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
   if (sqlca.sqlcode == 1403) break;
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1961,7 +1977,7 @@ struct { unsigned short len; unsigned char arr[25]; } patron;
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1982,7 +1998,7 @@ struct { unsigned short len; unsigned char arr[25]; } patron;
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -1997,15 +2013,17 @@ struct { unsigned short len; unsigned char arr[25]; } patron;
         		buscarCritica();
 		else
 			return;
-	}else
-		printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
+	}else{
+		printf("[Pulse Enter para voltar ao menu principal]"); 
+		pausa = getInt();
+	}
 }
 
 
 
 /* ______________________________________________________
  * 
- * Buscar un xogo polo seu codigo (parte da funcionalidade
+ * Buscar un xogo polo seu código (parte da funcionalidade
  * de listar todos os xogos).
  * ______________________________________________________
  */
@@ -2013,7 +2031,7 @@ struct { unsigned short len; unsigned char arr[25]; } patron;
 
 void buscarXogoCodigo(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -2044,7 +2062,7 @@ void buscarXogoCodigo(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 	
@@ -2145,7 +2163,7 @@ m/yyyy' ) , votosPositivos , votosNegativos , nvl ( ( SELECT AVG ( puntuacion\
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2177,7 +2195,7 @@ m/yyyy' ) , votosPositivos , votosNegativos , nvl ( ( SELECT AVG ( puntuacion\
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2195,7 +2213,7 @@ m/yyyy' ) , votosPositivos , votosNegativos , nvl ( ( SELECT AVG ( puntuacion\
 
 void buscarXogoTitulo(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -2227,7 +2245,7 @@ void buscarXogoTitulo(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 	
@@ -2285,7 +2303,7 @@ void buscarXogoTitulo(){
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 	
@@ -2373,7 +2391,7 @@ void buscarXogoTitulo(){
   sqlstm.sqptdso = sqlstm.sqtdso;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
   if (sqlca.sqlcode == 1403) break;
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2412,7 +2430,7 @@ void buscarXogoTitulo(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2433,7 +2451,7 @@ void buscarXogoTitulo(){
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2448,8 +2466,10 @@ void buscarXogoTitulo(){
         		buscarXogoCodigo();
 		else
 			return;
-	}else
-		printf("Non se atoparon xogos.\n\n[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
+	}else{
+		printf("Non se atoparon xogos.\n\n[Pulse Enter para voltar ao menu principal]"); 
+		pausa = getInt();
+	}
 }
 
 
@@ -2462,7 +2482,7 @@ void buscarXogoTitulo(){
 
 void buscarAutor(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -2494,7 +2514,7 @@ struct { unsigned short len; unsigned char arr[25]; } idAutor;
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 	
@@ -2549,7 +2569,7 @@ struct { unsigned short len; unsigned char arr[25]; } idAutor;
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2621,7 +2641,7 @@ struct { unsigned short len; unsigned char arr[25]; } idAutor;
   sqlstm.sqptdso = sqlstm.sqtdso;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
   if (sqlca.sqlcode == 1403) break;
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2658,7 +2678,7 @@ struct { unsigned short len; unsigned char arr[25]; } idAutor;
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2679,7 +2699,7 @@ struct { unsigned short len; unsigned char arr[25]; } idAutor;
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2694,8 +2714,10 @@ struct { unsigned short len; unsigned char arr[25]; } idAutor;
         		listarCriticasAutor();
 		else
 			return;
-	}else
-		printf("Non se atoparon autores.\n\n[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
+	}else{
+		printf("Non se atoparon autores.\n\n[Pulse Enter para voltar ao menu principal]"); 
+		pausa = getInt();
+	}
 }
 
 
@@ -2708,7 +2730,7 @@ struct { unsigned short len; unsigned char arr[25]; } idAutor;
 
 void listarXogos(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -2740,7 +2762,7 @@ void listarXogos(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 	
@@ -2772,7 +2794,7 @@ void listarXogos(){
  sqlstm.occurs = (unsigned int  )0;
  sqlstm.sqcmod = (unsigned int )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 	
@@ -2860,7 +2882,7 @@ void listarXogos(){
   sqlstm.sqptdso = sqlstm.sqtdso;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
   if (sqlca.sqlcode == 1403) break;
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2900,7 +2922,7 @@ void listarXogos(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2920,7 +2942,7 @@ void listarXogos(){
            sqlstm.sqlety = (unsigned short)4352;
            sqlstm.occurs = (unsigned int  )0;
            sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-           if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+           if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -2935,8 +2957,10 @@ void listarXogos(){
         		buscarXogoCodigo();
 		else
 			return;
-	}else
-		printf("[Pulse Enter para voltar ao menu principal]"); pausa = getInt();
+	}else{
+		printf("[Pulse Enter para voltar ao menu principal]"); 
+		pausa = getInt();
+	}
 }
 
 
@@ -3086,7 +3110,7 @@ void mostrarVotos(int codXogo){
 
 void editarAutor(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -3114,7 +3138,7 @@ void editarAutor(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -3180,7 +3204,7 @@ void editarAutor(){
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -3201,7 +3225,7 @@ void editarAutor(){
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -3223,7 +3247,7 @@ void editarAutor(){
 
 void votarPositivamente(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -3248,7 +3272,7 @@ void votarPositivamente(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -3293,7 +3317,7 @@ odXogo = :b0 ";
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -3314,7 +3338,7 @@ odXogo = :b0 ";
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -3337,7 +3361,7 @@ odXogo = :b0 ";
 
 void votarNegativamente(){
 	int erro = 0;		
-	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManagerDML(); */ 
+	/* EXEC SQL WHENEVER SQLERROR DO erro=errorManager(); */ 
 
 	
    	/* EXEC SQL BEGIN DECLARE SECTION; */ 
@@ -3362,7 +3386,7 @@ void votarNegativamente(){
  sqlstm.sqlety = (unsigned short)4352;
  sqlstm.occurs = (unsigned int  )0;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -3407,7 +3431,7 @@ odXogo = :b0 ";
  sqlstm.sqpadto = sqlstm.sqadto;
  sqlstm.sqptdso = sqlstm.sqtdso;
  sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
- if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+ if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -3428,7 +3452,7 @@ odXogo = :b0 ";
   sqlstm.sqlety = (unsigned short)4352;
   sqlstm.occurs = (unsigned int  )0;
   sqlcxt((void **)0, &sqlctx, &sqlstm, &sqlfpn);
-  if (sqlca.sqlcode < 0) (erro=errorManagerDML());
+  if (sqlca.sqlcode < 0) (erro=errorManager());
 }
 
 
@@ -3451,33 +3475,28 @@ odXogo = :b0 ";
  */
 
 int main() {
-  conectaBD();
+	conectaBD();
 
-  int op;
+	int op;
 
-  while ( (op=menu()) != 0){
-	switch(op){
-		case 1: listarXogos(); break;
-		case 2: engadirXogo(); break;
-		case 3: buscarXogoTitulo(); break;
-		case 4: eliminarXogo(); break;
-		case 5: engadirAutor(1); break;
-		case 6: buscarAutor(); break;
-		case 7: editarAutor(); break;
-		case 8: eliminarAutor(); break;
-		case 9: engadirCritica(); break;
-		case 10: votarPositivamente(); break;
-		case 11: votarNegativamente(); break;  
-       }
-
-  }
+	while ( (op=menu()) != 0){
+		switch(op){
+			case 1: listarXogos(); break;
+			case 2: engadirXogo(); break;
+			case 3: buscarXogoTitulo(); break;
+			case 4: eliminarXogo(); break;
+			case 5: engadirAutor(1); break;
+			case 6: buscarAutor(); break;
+			case 7: editarAutor(); break;
+			case 8: eliminarAutor(); break;
+			case 9: engadirCritica(); break;
+			case 10: votarPositivamente(); break;
+			case 11: votarNegativamente(); break;  
+	       }
+  	}
  
+	desconectaBD(); 
 
-
- desconectaBD(); 
-
- return 0;
+	return 0;
 }
-
-
 
